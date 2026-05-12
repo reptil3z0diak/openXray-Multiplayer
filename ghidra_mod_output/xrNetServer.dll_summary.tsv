@@ -1,0 +1,12 @@
+field	value
+program	/C:/Users/a-merelle/Documents/Dev/cop/X-Ray Multiplayer Extension/game/bin/xrNetServer.dll
+image_base	10000000
+language	x86:LE:32:default
+compiler	windows
+block	Headers 10000000-100003ff r=true w=false x=false
+block	.text 10001000-100145ff r=true w=false x=true
+block	.rdata 10015000-1001c7ff r=true w=false x=false
+block	.data 1001d000-10020217 r=true w=true x=false
+block	.rsrc 10021000-100211ff r=true w=false x=false
+block	.reloc 10022000-100231ff r=true w=false x=false
+block	tdb ffdff000-ffdfffff r=true w=true x=false

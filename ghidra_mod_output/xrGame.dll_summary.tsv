@@ -1,0 +1,12 @@
+field	value
+program	/C:/Users/a-merelle/Documents/Dev/cop/X-Ray Multiplayer Extension/game/bin/xrGame.dll
+image_base	10000000
+language	x86:LE:32:default
+compiler	windows
+block	Headers 10000000-100003ff r=true w=false x=false
+block	.text 10001000-1057b3ff r=true w=false x=true
+block	.rdata 1057c000-106c2dff r=true w=false x=false
+block	.data 106c3000-1070426f r=true w=true x=false
+block	_RDATA 10705000-107077ff r=true w=false x=false
+block	.rsrc 10708000-107081ff r=true w=false x=false
+block	.reloc 10709000-1079d3ff r=true w=false x=false

@@ -1,0 +1,248 @@
+entry	name	size	called_interesting_symbols	string_refs	call_refs
+100010b0	FUN_100010b0	488	1000110e->s_subnet_list_10015400 | 10001136->s_subnet_list_10015400 | 1000115e->s_subnet_list_10015400	10015400=subnet_list | 10015400=subnet_list | 10015400=subnet_list	3
+10001b40	fill_auth_check_params	3555	10001ec5->s_scripts_10015480 | 10001f36->s_misc\script_sound_pripyat.ltx_10015488 | 10001fa7->s_state_mgr_pri_a15.script_100154a8 | 10001fac->s_$game_scripts$_100154c4 | 100020b5->s_$game_scripts$_100154c4 | 100026cc->s_xrlua.dll_100155f8 | 10002722->s_xrnetserver.dll_10015604	10015480=scripts | 10015488=misc\script_sound_pripyat.ltx | 100154a8=state_mgr_pri_a15.script | 100154c4=$game_scripts$ | 100154c4=$game_scripts$ | 100155f8=xrlua.dll | 10015604=xrnetserver.dll	7
+10002b60	MultipacketSender::~MultipacketSender	18	10002b60->MultipacketSender::vftable		1
+10002b80	MultipacketSender::operator=	75			0
+10002bd0	FUN_10002bd0	164	10002c0c->MultipacketSender::vftable | 10002c4b->MultipacketSender::vftable		2
+10002c80	MultipacketReciever::~MultipacketReciever	7	10002c80->MultipacketReciever::vftable		1
+10002c90	MultipacketReciever::MultipacketReciever	9	10002c90->MultipacketReciever::vftable		1
+10002ca0	MultipacketReciever::MultipacketReciever	11	10002ca0->MultipacketReciever::vftable		1
+10002cb0	MultipacketReciever::operator=	5			0
+10002cc0	FUN_10002cc0	108	10002ce0->MultipacketReciever::vftable | 10002d0f->MultipacketReciever::vftable		2
+10002d30	CSteamHelper::CSteamHelper	472	10002e36->CCallback<class_CSteamHelper,struct_GameRichPresenceJoinRequested_t,0>::vftable | 10002e65->CCallback<class_CSteamHelper,struct_PersonaStateChange_t,0>::vftable | 10002e94->CCallback<class_CSteamHelper,struct_AvatarImageLoaded_t,0>::vftable		3
+10002f10	CSteamHelper::SetOnJoinRequestedXRayCallback	116			0
+10002f90	CSteamHelper::SetOnPersonaChangedXRayCallback	15			0
+10002fa0	CSteamHelper::SetAvatarImageLoadedXRayCallback	15			0
+10002fb0	CSteamHelper::SetRetailMode	15			0
+10002fc0	CSteamHelper::IsRetail	4			0
+10002fd0	IPureSteamServer::LegacyServer	4			0
+10002fe0	IPureSteamClient::NET_Start	16			0
+10002ff0	IPureSteamClient::SteamNetConnectionStatusChangedCallback	19	10002ff6->IPureSteamClient::s_pCallbackInstance | 10002ffc->IPureSteamClient::OnSteamNetConnectionStatusChanged		2
+10003010	IPureSteamClient::GameDescriptionRecieved	7			0
+10003020	IPureSteamClient::LegacyClient	4			0
+100030a0	IPureClient::SetClientID	18			0
+100030c0	IPureClient::net_isCompleted_Connect	13			0
+100030d0	IPureClient::net_isFails_Connect	12			0
+100030e0	IPureClient::net_setConenctionState	16			0
+100030f0	IPureClient::net_IsSyncronised	7			0
+10003100	IPureClient::net_isDisconnected	10			0
+10003110	IPureClient::get_net_DescriptionData	7			0
+10003120	IPureClient::net_SessionName	19			0
+10003140	IPureClient::StartProcessQueue	12			0
+10003150	IPureClient::net_msg_Retreive	11			0
+10003160	IPureClient::net_msg_Release	11			0
+10003170	IPureClient::EndProcessQueue	12			0
+10003180	IPureClient::DeviceTimer	7			0
+100031a0	IPureClient::GetStatistic	7			0
+100031b0	IPureClient::GetClientID	7			0
+100031c0	IPureClient::timeServer	31			0
+100031e0	IPureClient::timeServer_Delta	7			0
+100031f0	IPureClient::timeServer_UserDelta	16			0
+10003200	IPureClient::GetMsgId2Name	8			0
+10003210	IPureClient::OnSessionTerminate	3			0
+10003220	IPureClient::TestLoadBEClient	3			0
+10003230	FUN_10003230	141	10003268->IPureClient::~IPureClient | 1000329b->IPureClient::~IPureClient		2
+100032c0	IPureSteamServer::NET	7			0
+100032d0	IPureSteamServer::Port	4			0
+100032e0	IPureSteamServer::NET_Start	19			0
+10003300	IPureSteamServer::SteamNetConnectionStatusChangedCallback	21	10003307->IPureSteamServer::s_pCallbackInstance | 1000330d->IPureSteamServer::OnSteamNetConnectionStatusChanged		2
+10003380	IClient::operator=	272			0
+10003490	IServerStatistic::clear	49			0
+100034d0	IServerStatistic::operator=	34			0
+10003500	IServerStatistic::operator=	52			0
+10003540	IBannedClient::IBannedClient	23			0
+10003560	IBannedClient::operator=	18			0
+10003580	IBannedClient::operator=	28			0
+100035a0	IPureServer::GetStatistic	7			0
+100035b0	IPureServer::OnCL_QueryHost	3			0
+100035c0	IPureServer::GetPort	4			0
+100035d0	IPureServer::Check_ServerAccess	5			0
+100035e0	IPureServer::Assign_ServerType	3			0
+100035f0	IPureServer::GetClientsCount	35			0
+10003620	IPureServer::GetServerClient	4			0
+10003630	IPureServer::GetClientByID	73			0
+10003680	IPureServer::GetConnectOptions	4			0
+10003690	IPureServer::Password	7			0
+100036a0	IPureServer::IsLoadingStarted	7			0
+100036b0	IPureServer::SetLoadingStarted	18			0
+100036d0	INetQueue::INetQueue	197	10003761->PTR_NET_Packet_10015224 | 10003761->XRCORE.DLL::NET_Packet::NET_Packet		2
+10003890	INetQueue::Create	299	100038b5->PTR_NET_Packet_10015224 | 100038b5->XRCORE.DLL::NET_Packet::NET_Packet		2
+100039c0	INetQueue::Create	326	100039eb->PTR_NET_Packet_10015224 | 100039eb->XRCORE.DLL::NET_Packet::NET_Packet		2
+10003c60	syncQueue::syncQueue	23			0
+10003c80	syncQueue::push	67			0
+10003cd0	syncQueue::begin	3			0
+10003ce0	syncQueue::end	10			0
+10003cf0	syncQueue::size	7			0
+10003d00	syncQueue::clear	21			0
+10003d20	syncQueue::operator=	25			0
+10003d40	syncQueue::operator=	108			0
+10003db0	IPureClient::_SendTo_LL	12	10003db7->IPureClient::SendTo_LL		1
+10003dc0	IPureClient::_Recieve	389	10003e3c->s_*_CL_Ping:_time=%u,_client_send=_10015668 | 10003e92->IPureClient::Sync_Average | 10003ed8->psNET_Flags | 10003ef6->s_logs\net_cl_log.log_100156cc	10015668=* CL_Ping: time=%u, client_send=%u, server_time=%u, ping=%u, delta=%d | 100156cc=logs\net_cl_log.log	4
+10003f50	IPureClient::IPureClient	498	10003f5c->MultipacketReciever::vftable | 10003f65->MultipacketSender::vftable | 10003f6c->PTR_NET_Packet_10015224 | 10003f6c->XRCORE.DLL::NET_Packet::NET_Packet | 10003f8c->PTR_NET_Packet_10015224 | 10003f8c->XRCORE.DLL::NET_Packet::NET_Packet | 10003fbc->IPureClient::vftable{for_MultipacketReciever} | 10003fc4->IPureClient::vftable{for_MultipacketSender} | 1000412c->IPureSteamClient::IPureSteamClient		9
+10004150	IPureClient::~IPureClient	161	10004158->IPureClient::vftable{for_MultipacketReciever} | 1000415e->IPureClient::vftable{for_MultipacketSender} | 1000419e->psNET_direct_connect | 100041df->MultipacketSender::vftable | 100041e9->MultipacketReciever::vftable		5
+10004200	IPureClient::Connect	931	1000422b->s_IPureClient::Connect_100156e0 | 1000424f->psNET_direct_connect | 10004588->IPureSteamClient::Connect	100156e0=IPureClient::Connect | 100156f8=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Client.cpp	3
+100045b0	IPureClient::Disconnect	243	10004683->IPureSteamClient::Disconnect		1
+100046b0	IPureClient::OnMessage	124	10004711->XRCORE.DLL::NET_Packet::r_begin		1
+10004730	IPureClient::timeServer_Correct	134	1000473d->s_*[IPureClient]_Correcting_timeSe_10015764 | 1000475a->s_*[IPureClient]_[netDelta]_%u_1001579c | 100047ab->IPureClient::Sync_Average	10015764=*[IPureClient] Correcting timeServer [SV] %u [CL] %u | 1001579c=*[IPureClient] [netDelta] %u	3
+100047c0	IPureClient::SendTo_LL	203	100047db->psNET_Flags | 100047fc->s_logs\net_cl_log.log_100156cc	100156cc=logs\net_cl_log.log	2
+10004890	IPureClient::Send	34	100048a9->MultipacketSender::SendPacket		1
+100048c0	IPureClient::Flush_Send_Buffer	60	100048d9->MultipacketSender::_FlushSendBuffer | 100048e9->MultipacketSender::_FlushSendBuffer		2
+10004900	IPureClient::net_HasBandwidth	103	1000491f->psNET_ClientUpdate | 10004938->psNET_Flags		2
+10004970	IPureClient::Sync_Thread	372	10004ad0->s_*_CL_TimeSync:_DELTA:_%d,_sample_100157bc	100157bc=* CL_TimeSync: DELTA: %d, samples: %d	1
+10004af0	IPureClient::Sync_Average	333	10004c22->s_*_CLIENT:_d(%d),_dc(%d),_s(%d)_100157e4	100157e4=* CLIENT: d(%d), dc(%d), s(%d)	1
+10004c40	IPureClient::net_Syncronize	159	10004c7e->s_network-time-sync_10015804	10015804=network-time-sync	1
+10004ce0	IPureClient::ClearStatistic	47			0
+10004d10	IPureClient::SetGlobalConfigValueInt32	51			0
+10004d50	IPureClient::GetServerAddress	43	10004d6a->IPureSteamClient::GetServerAddress		1
+10004d80	IPureClient::GetServerSteamID	28			0
+10005850	FUN_10005850	75	1000587a->IPureClient::Sync_Thread		1
+100058d0	IClientStatistic::Clear	40			0
+10005900	IClientStatistic::getPing	4			0
+10005910	IClientStatistic::IClientStatistic	44			0
+10005940	MultipacketSender::MultipacketSender	88	10005947->MultipacketSender::vftable | 1000594d->PTR_NET_Packet_10015224 | 1000594d->XRCORE.DLL::NET_Packet::NET_Packet | 1000596d->PTR_NET_Packet_10015224 | 1000596d->XRCORE.DLL::NET_Packet::NET_Packet		5
+100059a0	MultipacketSender::SendPacket	148	100059b4->psNET_GuaranteedPacketMode | 100059fc->MultipacketSender::_FlushSendBuffer | 10005a04->XRCORE.DLL::NET_Packet::w_u16 | 10005a10->XRCORE.DLL::NET_Packet::w | 10005a1c->MultipacketSender::_FlushSendBuffer		5
+10005a40	MultipacketSender::FlushSendBuffer	68	10005a5c->MultipacketSender::_FlushSendBuffer | 10005a6d->MultipacketSender::_FlushSendBuffer		2
+10005a90	MultipacketSender::_FlushSendBuffer	465	10005ae5->s_NET_Compressor::compressed_size_10015a00 | 10005b1c->s_MultipacketSender::_FlushSendBuf_1001590c | 10005b2b->s_comp_sz_<_sizeof(packet_data)-si_1001596c | 10005b50->s_MultipacketSender::_FlushSendBuf_1001590c | 10005b88->NET_Compressor::Compress	10015a00=NET_Compressor::compressed_size | 10015a20=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Compressor.cpp | 1001590c=MultipacketSender::_FlushSendBuffer | 10015930=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Common.cpp | 1001596c=comp_sz < sizeof(packet_data)-sizeof(MultipacketHeader) | 1001590c=MultipacketSender::_FlushSendBuffer | 10015930=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Common.cpp	5
+10005c70	MultipacketReciever::RecievePacket	349	10005cbc->NET_Compressor::Decompress		1
+10005dd0	DumpNetCompressorStats	18	10005ddb->NET_Compressor::DumpStats		1
+10005df0	NET_Compressor::NET_Compressor	72			0
+10005e40	NET_Compressor::~NET_Compressor	20			0
+10005e60	NET_Compressor::compressed_size	83	10005e91->s_NET_Compressor::compressed_size_10015a00	10015a00=NET_Compressor::compressed_size | 10015a20=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Compressor.cpp	1
+10005ec0	NET_Compressor::Compress	711	10005edd->g_net_compressor_gather_stats | 10006000->s_NET_Compressor::compressed_size_10015a00 | 10006035->s_NET_Compressor::Compress_10015a78 | 1000604b->psNET_direct_connect | 1000605a->g_net_compressor_enabled | 10006093->g_net_compressor_gather_stats | 10006135->g_net_compressor_gather_stats | 10006161->g_net_compressor_gather_stats	10015a00=NET_Compressor::compressed_size | 10015a20=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Compressor.cpp | 10015a78=NET_Compressor::Compress | 10015a20=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Compressor.cpp	8
+10006190	NET_Compressor::Decompress	263			0
+100062a0	NET_Compressor::DumpStats	386	100062b1->s_---------NET_Compressor::DumpSta_10015ad4 | 100062b8->g_net_compressor_enabled	10015ad4=---------NET_Compressor::DumpStats-----------	2
+10006580	FUN_10006580	49	10006590->PTR___std_exception_destroy_10015110 | 10006590->VCRUNTIME140.DLL::__std_exception_destroy		2
+10006d70	FUN_10006d70	308	10006da7->IClient::vftable | 10006df5->MultipacketSender::vftable | 10006e2d->IClient::vftable | 10006e7b->MultipacketSender::vftable		4
+10006eb0	FUN_10006eb0	141	10006ee8->IPureServer::~IPureServer | 10006f1b->IPureServer::~IPureServer		2
+10007030	IBannedClient::Load	695	10007280->s_-_loaded_banned_client_%s_to_%s_10015c80	10015c80=- loaded banned client %s to %s	1
+100072f0	IBannedClient::Save	363			0
+10007460	IBannedClient::BannedTimeTo	145			0
+10007500	IClient::IClient	212	1000750a->MultipacketSender::vftable | 10007510->PTR_NET_Packet_10015224 | 10007510->XRCORE.DLL::NET_Packet::NET_Packet | 10007530->PTR_NET_Packet_10015224 | 10007530->XRCORE.DLL::NET_Packet::NET_Packet | 10007561->IClient::vftable		6
+100075e0	IClient::~IClient	90	100075e0->IClient::vftable | 10007628->MultipacketSender::vftable		2
+10007640	IClientStatistic::Update	121			0
+100076c0	IClient::_SendTo_LL	95	100076e3->s_IClient::_SendTo_LL_10015ca0 | 100076f2->s_server_10015cf0 | 10007715->IPureServer::SendTo_LL	10015ca0=IClient::_SendTo_LL | 10015cb4=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\NET_Server.cpp | 10015cf0=server	3
+10007720	IPureServer::ID_to_client	102			0
+10007790	IPureServer::_Recieve	538	100077b8->s_!_Too_large_packet_size[%d]_rece_10015cf8 | 1000782c->s_+_DisconnectedClient._10015d50 | 10007849->PTR_NET_Packet_10015224 | 10007849->XRCORE.DLL::NET_Packet::NET_Packet | 1000786e->psNET_Flags | 10007890->s_logs\net_sv_log.log_10015d68	10015cf8=! Too large packet size[%d] received! | 10015d50=+ DisconnectedClient. | 10015d68=logs\net_sv_log.log	6
+100079b0	IPureServer::IPureServer	547	100079c2->IPureServer::vftable | 10007bbd->IPureSteamServer::IPureSteamServer		2
+10007be0	IPureServer::~IPureServer	656	10007bf6->IPureServer::vftable | 10007cca->psNET_direct_connect | 10007e63->MultipacketReciever::vftable		3
+10007e70	IPureServer::Connect	669	10007eb1->psNET_direct_connect | 10007ec4->psNET_direct_connect | 10007fc2->s_maxplayers=_10015d84 | 10007fd1->s_maxplayers=_10015d84 | 100080c9->psNET_direct_connect | 100080f1->IPureSteamServer::Connect	10015d84=maxplayers= | 10015d84=maxplayers=	6
+10008110	IPureServer::Disconnect	36	10008110->psNET_direct_connect | 1000811c->IPureServer::BannedList_Save | 10008123->IPureServer::IpList_Unload | 1000812f->IPureSteamServer::Disconnect		4
+10008140	IPureServer::Flush_Clients_Buffers	64			0
+10008180	FUN_10008180	64	1000819c->MultipacketSender::_FlushSendBuffer | 100081ac->MultipacketSender::_FlushSendBuffer		2
+100081c0	IPureServer::SendTo_Buf	90	1000820f->MultipacketSender::SendPacket		1
+10008220	IPureServer::SendTo_LL	129	10008223->psNET_Flags | 10008245->s_logs\net_sv_log.log_10015d68	10015d68=logs\net_sv_log.log	2
+100082b0	IPureServer::SendTo	34			0
+100082e0	IPureServer::SendBroadcast_LL	170			0
+10008390	IPureServer::SendBroadcast	31	100083a6->IPureServer::SendBroadcast_LL		1
+100083b0	IPureServer::OnMessage	5			0
+100083c0	IPureServer::OnCL_Connected	30	100083cc->s_*_Player_0x%08x_connected._10015d98	10015d98=* Player 0x%08x connected. 	1
+100083e0	IPureServer::OnCL_Disconnected	30	100083ec->s_*_Player_0x%08x_disconnected._10015db4	10015db4=* Player 0x%08x disconnected. 	1
+10008400	IPureServer::HasBandwidth	373	10008421->psNET_direct_connect | 1000847d->IClientStatistic::Update | 10008496->psNET_ServerUpdate | 100084ac->psNET_Flags | 100084f1->psNET_ServerPending | 1000855c->IClientStatistic::Update		6
+10008580	IPureServer::UpdateClientStatistic	106	100085de->IClientStatistic::Update		1
+100085f0	IPureServer::ClearStatistic	130			0
+100086c0	IPureServer::DisconnectClient	45	100086e2->IPureSteamServer::DisconnectClient		1
+100086f0	IPureServer::DisconnectAddress	243	10008767->IPureSteamServer::GetClientAddress		1
+100087f0	IPureServer::GetClientAddress	280			0
+10008910	IPureServer::GetClientSteamID	122			0
+10008990	IPureServer::GetClientAddress	27	100089a2->IPureSteamServer::GetClientAddress		1
+100089b0	IPureServer::GetBannedClient	103			0
+10008a20	IPureServer::BanClient	51	10008a3b->IPureSteamServer::GetClientAddress		1
+10008a60	IPureServer::BanAddress	168	10008a6a->IPureServer::GetBannedClient | 10008ae0->IPureServer::BannedList_Save | 10008afa->IPureServer::BannedList_Save		3
+10008b10	IPureServer::UnBanAddress	544	10008b28->IPureServer::GetBannedClient | 10008d23->IPureServer::BannedList_Save		2
+10008d30	IPureServer::Print_Banned_Addreses	446			0
+10008ef0	IPureServer::BannedList_Save	157	10008f68->IBannedClient::Save		1
+10008f90	IPureServer::BannedList_Load	244	10009042->IBannedClient::Load		1
+10009090	IPureServer::IpList_Load	26			0
+100090b0	IPureServer::IpList_Unload	79			0
+10009100	IPureServer::IsPlayerIPDenied	158			0
+100091d0	IPureServer::UpdateBannedList	103			0
+10009240	IPureServer::GetBannedListName	6			0
+10009250	IPureServer::InsertNetworkMessageToQueue	210			0
+10009330	IPureServer::ApplyRecievedNetworkMessages	290	10009416->MultipacketReciever::RecievePacket		1
+10009da0	IPureSteamClient::IPureSteamClient	329	10009edb->g_pSteamHelper		1
+10009ef0	IPureSteamClient::~IPureSteamClient	13			0
+10009f00	IPureSteamClient::Connect	2031	10009f63->IPureSteamClient::GetAddressFromExternalService | 1000a032->CSteamHelper::InitSteam | 1000a03e->IPureClient::Disconnect | 1000a2af->PTR_SteamNetworkingIPAddr_ParseString_10015000 | 1000a2af->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ParseString | 1000a2d1->PTR_SteamNetworkingIPAddr_ToString_10015004 | 1000a2d1->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ToString | 1000a2fc->PTR_SteamNetworkingIPAddr_ParseString_10015000 | 1000a2fc->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ParseString | 1000a31e->PTR_SteamNetworkingIPAddr_ToString_10015004 | 1000a31e->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ToString | 1000a329->s_--_[IPureClient]_Connecting_to_s_10015f64 | 1000a367->IPureSteamClient::SteamNetConnectionStatusChangedCallback | 1000a42c->IPureClient::Disconnect | 1000a439->s_!!_[IPureClient]_Failed_to_creat_10015f90 | 1000a4d8->s_connect_10015fc0 | 1000a562->s_connect_10015fc0 | 1000a5d5->s_ServerAdmin_10015fc8 | 1000a5de->s_ServerAdmin_10015fc8	10015f64=-- [IPureClient] Connecting to server at %s | 10015f90=!! [IPureClient] Failed to create connection | 10015fc0=connect | 10015fc0=connect | 10015fc8=ServerAdmin | 10015fc8=ServerAdmin	19
+1000a6f0	IPureSteamClient::Disconnect	434	1000a75a->s_~~~_Disconnect_10015fd4 | 1000a844->s_Disconnecting..._10015fe4	10015fd4=~~~ Disconnect | 10015fe4=Disconnecting...	2
+1000a8b0	IPureSteamClient::Send	81			0
+1000a910	IPureSteamClient::OnSteamNetConnectionStatusChanged	257	1000a920->s_----_OnSteamNetConnectionStatusC_10015ff8 | 1000a97e->s_connect_10015fc0 | 1000a9a0->s_!!_[IPureClient]_Connection_clos_10016024 | 1000a9dc->s_!!_[IPureClient]_A_problem_occur_10016054	10015ff8=---- OnSteamNetConnectionStatusChanged: %u | 10015fc0=connect | 10016024=!! [IPureClient] Connection closed by Peer %s | 10016054=!! [IPureClient] A problem occurred %s	4
+1000aa30	IPureSteamClient::RunCallbacks	36	1000aa33->IPureSteamClient::s_pCallbackInstance		1
+1000aa60	IPureSteamClient::net_Handler	413	1000ab61->IPureSteamClient::HandleNetDescription | 1000ab87->MultipacketReciever::RecievePacket		2
+1000ac00	IPureSteamClient::HandleNetDescription	319		1001607c=--- Received map name from server: %s | 100160a4=--- Received addon name from server: %s	0
+1000ad40	IPureSteamClient::GetAddressFromExternalService	153			0
+1000ade0	IPureSteamClient::GetServerAddress	301	1000ae08->IPureSteamClient::GetAddressFromExternalService		1
+1000af10	IPureSteamClient::GetServerSteamID	13			0
+1000af20	IPureSteamClient::UpdateStats	142			0
+1000afb0	IPureSteamClient::SetGlobalConfigValueInt32	41			0
+1000b190	FUN_1000b190	186	1000b1cd->IPureSteamClient::s_pCallbackInstance | 1000b1ef->IPureSteamClient::net_Handler		2
+1000b600	IPureSteamServer::IPureSteamServer	333	1000b73c->g_pSteamHelper		1
+1000b750	IPureSteamServer::~IPureSteamServer	60			0
+1000b790	IPureSteamServer::Connect	721	1000b7f0->CSteamHelper::InitSteam | 1000b8d1->IPureSteamServer::SteamNetConnectionStatusChangedCallback | 1000b922->s_!!_[IPureServer]_Failed_to_liste_1001612c | 1000b94e->s_!!_[IPureServer]_to_listen_on_po_1001615c | 1000b978->PTR_SteamNetworkingIPAddr_ToString_10015004 | 1000b978->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ToString | 1000b98d->s_~~_[IPureServer]_Server_listenin_10016184 | 1000b997->psNET_direct_connect | 1000b9a3->IPureServer::BannedList_Load | 1000b9c1->IPureSteamServer::s_pCallbackInstance | 1000b9f7->s_steam-update-sv-sync_100161c0	1001612c=!! [IPureServer] Failed to listen on port %d | 1001615c=!! [IPureServer] to listen on port %d | 10016184=~~ [IPureServer] Server listening with IP %s on port %d  | 100161c0=steam-update-sv-sync	11
+1000ba70	IPureSteamServer::Disconnect	156	1000ba84->s_*_[IPureServer]_Closing_connecti_100161d8 | 1000ba9e->IPureSteamServer::DisconnectAllClients	100161d8=* [IPureServer] Closing connections...	2
+1000bb10	IPureSteamServer::OnSteamNetConnectionStatusChanged	127	1000bb43->IPureSteamServer::DisconnectClient | 1000bb56->s_*_[IPureServer]_Connection_reque_10016208 | 1000bb67->IPureSteamServer::HandleConnection | 1000bb7a->s_*_[IPureServer]_Connection_finis_10016234	10016208=* [IPureServer] Connection request from %s | 10016234=* [IPureServer] Connection finished %s	4
+1000bbb0	IPureSteamServer::RunCallbacks	20	1000bbb0->IPureSteamServer::s_pCallbackInstance		1
+1000bbd0	IPureSteamServer::net_Handler	370	1000bc34->IPureSteamServer::HandleHandshake | 1000bd01->IPureServer::InsertNetworkMessageToQueue		2
+1000bd50	IPureSteamServer::HandleAwaitingConnections	201	1000bd7a->s_*_[IPureServer]_Client_%s_finish_1001625c | 1000bd91->IPureSteamServer::FinishConnection	1001625c=* [IPureServer] Client %s finishing connection after SV CL...	2
+1000be20	IPureSteamServer::HandleConnection	267	1000be3d->s_*_[IPureServer]_Can't_accept_con_100162a0 | 1000be59->IPureSteamServer::CloseConnection | 1000be76->s_!!_[IPureServer]_Client_tried_to_100162f4 | 1000be92->IPureSteamServer::CloseConnection | 1000beaa->s_!!_[IPureServer]_Client_tried_to_10016348 | 1000bec7->s_*_[IPureServer]_Failed_to_set_po_10016384 | 1000beee->IPureSteamServer::GetClientAddress | 1000befa->IPureServer::GetBannedClient | 1000bf03->s_*_[IPureServer]_Banned_by_the_Se_100163c4 | 1000bf1f->IPureSteamServer::CloseConnection	100162a0=* [IPureServer] Can't accept connection. (It was already closed?) | 100162f4=!! [IPureServer] Client tried to send too BIG PACKET, %s | 10016348=!! [IPureServer] Client tried to send too SMALL PACKET, %s | 10016384=* [IPureServer] Failed to set poll group? | 100163c4=* [IPureServer] Banned by the Server | 100163ec=You have been banned by the Server	10
+1000bf30	IPureSteamServer::HandleHandshake	609	1000c03d->IPureSteamServer::CloseConnection | 1000c174->IPureSteamServer::FinishConnection		2
+1000c1a0	IPureSteamServer::FinishConnection	230			0
+1000c290	IPureSteamServer::Update	121	1000c2da->IPureSteamServer::s_pCallbackInstance | 1000c2f0->IPureSteamServer::net_Handler		2
+1000c310	IPureSteamServer::SendTo	22			0
+1000c330	IPureSteamServer::DisconnectClient	188	1000c3a0->s_*_Attempt_to_disconnect_server_c_10016424 | 1000c3aa->s_!_Steam_internal_error_10016454 | 1000c3e0->IPureSteamServer::CloseConnection	10016424=* Attempt to disconnect server client [%u][%s] | 10016454=! Steam internal error	3
+1000c3f0	IPureSteamServer::DisconnectAllClients	333			0
+1000c540	IPureSteamServer::CloseConnection	248			0
+1000c640	IPureSteamServer::DestroyClient	103			0
+1000c6b0	IPureSteamServer::GetClientAddress	212	1000c703->PTR_SteamNetworkingIPAddr_ToString_10015004 | 1000c703->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ToString		2
+1000c790	IPureSteamServer::GetClientAddress	177	1000c7c3->PTR_SteamNetworkingIPAddr_ToString_10015004 | 1000c7c3->GAMENETWORKINGSOCKETS.DLL::SteamNetworkingIPAddr_ToString		2
+1000c850	IPureSteamServer::GetClientSteamID	109			0
+1000c8c0	IPureSteamServer::GetClientPendig	45			0
+1000c8f0	IPureSteamServer::GetClientStatistic	47			0
+1000c920	IPureSteamServer::HasClient	98			0
+1000d160	FUN_1000d160	60	1000d17b->IPureSteamServer::Update		1
+1000d1a0	NET_Compressor::operator=	238			0
+1000d290	IClientStatistic::getBPS	4			0
+1000d2a0	IClientStatistic::getDroppedCount	4			0
+1000d2b0	IClientStatistic::getRetriedCount	4			0
+1000d2c0	IClientStatistic::getMPS_Receive	4			0
+1000d2d0	IClientStatistic::getMPS_Send	4			0
+1000d2e0	IClientStatistic::getReceivedPerSec	7			0
+1000d2f0	IClientStatistic::getSendedPerSec	7			0
+1000d300	IClientStatistic::getConnQuality	4			0
+1000d310	IClientStatistic::operator=	25			0
+1000d330	IClientStatistic::operator=	121			0
+1000de20	FUN_1000de20	277	1000df0e->PTR___std_exception_destroy_10015110 | 1000df0e->VCRUNTIME140.DLL::__std_exception_destroy		2
+1000df40	FUN_1000df40	248	1000e027->PTR___std_exception_destroy_10015110 | 1000e027->VCRUNTIME140.DLL::__std_exception_destroy		2
+1000e940	CSteamHelper::~CSteamHelper	258	1000e944->CSteamHelper::ClearAvatarCache		1
+1000ea50	CSteamHelper::Load	455	1000ea59->s_GameNetworkingSockets.dll_10016498 | 1000ea5e->s_steam_api.dll_10016488 | 1000ea66->s_GameNetworkingSockets.dll_10016498 | 1000ea66->s_steam_api.dll_10016488 | 1000ea88->s_CSteamHelper::Load_100164b4 | 1000eab3->s_SteamAPI_InitFlat_10016514 | 1000eabb->s_SteamAPI_Shutdown_10016528 | 1000eac8->s_SteamAPI_SteamNetworkingSockets__1001653c | 1000ead5->s_SteamAPI_SteamNetworkingUtils_St_1001656c | 1000eae2->s_SteamAPI_SteamUtils_v010_10016598 | 1000eaef->s_SteamAPI_ISteamUtils_GetImageSiz_100165b4 | 1000eafc->s_SteamAPI_ISteamUtils_GetImageRGB_100165d8 | 1000eb09->s_SteamAPI_ISteamUtils_GetCurrentB_100165fc | 1000eb16->s_SteamAPI_RunCallbacks_10016628 | 1000eb23->s_SteamClient_10016640 | 1000eb30->s_SteamAPI_SteamFriends_v018_1001664c | 1000eb3d->s_SteamAPI_SteamUser_v023_10016668 | 1000eb4a->s_SteamAPI_ISteamUser_GetSteamID_10016680 | 1000eb57->s_SteamAPI_ISteamFriends_SetRichPr_100166a0 | 1000eb67->s_SteamAPI_ISteamFriends_SetPlayed_100166c8 | 1000eb74->s_SteamAPI_ISteamFriends_GetSmallF_100166f0 | 1000eb81->s_SteamAPI_ISteamFriends_GetMedium_1001671c | 1000eb8e->s_SteamAPI_ISteamFriends_GetLargeF_1001674c | 1000eb9b->s_SteamAPI_ISteamFriends_RequestUs_10016778 | 1000ebab->s_SteamAPI_ISteamNetworkingUtils_S_100167a8 | 1000ebc1->s_SteamAPI_RegisterCallback_100167e0 | 1000ebcb->s_SteamAPI_UnregisterCallback_100167fc | 1000ebe2->s_GameNetworkingSockets_Init_10016818 | 1000ebea->s_SteamNetworkingSockets_LibV12_10016834 | 1000ebf7->s_SteamAPI_SteamNetworkingUtils_v0_10016854	10016498=GameNetworkingSockets.dll | 10016488=steam_api.dll | 10016498=GameNetworkingSockets.dll | 10016488=steam_api.dll | 100164b4=CSteamHelper::Load | 100164c8=G:\xrMPE\GIT\xray16_xrMPE\xray\xrNetServer\SteamHelper.cpp | 10016514=SteamAPI_InitFlat | 10016528=SteamAPI_Shutdown | 1001653c=SteamAPI_SteamNetworkingSockets_SteamAPI_v012 | 1001656c=SteamAPI_SteamNetworkingUtils_SteamAPI_v004 | 10016598=SteamAPI_SteamUtils_v010 | 100165b4=SteamAPI_ISteamUtils_GetImageSize | 100165d8=SteamAPI_ISteamUtils_GetImageRGBA | 100165fc=SteamAPI_ISteamUtils_GetCurrentBatteryPower | 10016628=SteamAPI_RunCallbacks | 10016640=SteamClient | 1001664c=SteamAPI_SteamFriends_v018 | 10016668=SteamAPI_SteamUser_v023 | 10016680=SteamAPI_ISteamUser_GetSteamID | 100166a0=SteamAPI_ISteamFriends_SetRichPresence	31
+1000ec20	CSteamHelper::InitSteam	311	1000ec2e->CSteamHelper::ClearAvatarCache | 1000ec9a->CSteamHelper::OnJoinRequested | 1000ecd2->CSteamHelper::OnPersonaStateChanged | 1000ed0a->CSteamHelper::OnAvatarLoaded | 1000ed3e->s_!_Cannot_initialize_Steam_Librar_10016894	10016894=! Cannot initialize Steam Library: %s	5
+1000ed60	CSteamHelper::ShutdownSteam	27			0
+1000ed80	CSteamHelper::RunCallbacks	13			0
+1000ed90	CSteamHelper::Kill	5			0
+1000eda0	CSteamHelper::OnJoinRequested	94			0
+1000ee00	CSteamHelper::OnPersonaStateChanged	141	1000ee52->CSteamHelper::UpdateTemporaryAvatar		1
+1000ee90	CSteamHelper::OnAvatarLoaded	67	1000eea5->CSteamHelper::UpdateTemporaryAvatar		1
+1000eee0	CSteamHelper::SteamNetworkingSockets	5			0
+1000eef0	CSteamHelper::SteamNetworkingUtils	5			0
+1000ef00	CSteamHelper::SetRichPresence	40			0
+1000ef30	CSteamHelper::SetPlayedWith	42			0
+1000ef60	CSteamHelper::GetSmallFriendAvatar	57			0
+1000efa0	CSteamHelper::GetMediumFriendAvatar	57			0
+1000efe0	CSteamHelper::GetLargeFriendAvatar	60			0
+1000f020	CSteamHelper::GetImageSize	43			0
+1000f050	CSteamHelper::GetImageRGBA	43			0
+1000f080	CSteamHelper::RequestUserInfo	205			0
+1000f150	CSteamHelper::SaveTemporaryAvatar	1182	1000f175->CSteamHelper::GetTemporaryAvatarTextureName | 1000f1ec->g_pSteamHelper | 1000f2b6->g_pSteamHelper | 1000f2f8->CSteamHelper::TryRemoveTemporaryAvatar		4
+1000f5f0	CSteamHelper::ClearAvatarCache	326			0
+1000f750	CSteamHelper::UpdateTemporaryAvatar	3772	1000f77b->CSteamHelper::GetTemporaryAvatarTextureName | 1000f7db->CSteamHelper::GetTemporaryAvatarTextureName | 1000f831->CSteamHelper::GetTemporaryAvatarTextureName | 1000f887->CSteamHelper::GetTemporaryAvatarTextureName | 1000f8dd->g_pSteamHelper | 1000f9a6->g_pSteamHelper | 1000f9e7->CSteamHelper::TryRemoveTemporaryAvatar | 1000fcca->CSteamHelper::GetTemporaryAvatarTextureName | 1000fd02->g_pSteamHelper | 1000fdcb->g_pSteamHelper | 1000fe0c->CSteamHelper::TryRemoveTemporaryAvatar | 10010154->CSteamHelper::GetTemporaryAvatarTextureName | 1001018c->g_pSteamHelper | 10010255->g_pSteamHelper | 10010296->CSteamHelper::TryRemoveTemporaryAvatar		15
+10010610	CSteamHelper::TryRemoveTemporaryAvatar	114	1001062a->CSteamHelper::GetTemporaryAvatarTextureName		1
+10010690	CSteamHelper::GetTemporaryAvatarTextureName	619			0
+10010900	CSteamHelper::SaveOrRequestTemporaryAvatars	3576	10010936->CSteamHelper::GetTemporaryAvatarTextureName | 10010996->g_pSteamHelper | 10010a5f->g_pSteamHelper | 10010aa0->CSteamHelper::TryRemoveTemporaryAvatar | 10010d6b->CSteamHelper::GetTemporaryAvatarTextureName | 10010da3->g_pSteamHelper | 10010e6c->g_pSteamHelper | 10010ead->CSteamHelper::TryRemoveTemporaryAvatar | 100111be->CSteamHelper::GetTemporaryAvatarTextureName | 100111f6->g_pSteamHelper | 100112bf->g_pSteamHelper | 10011300->CSteamHelper::TryRemoveTemporaryAvatar | 100116b0->g_pSteamHelper | 100116be->CSteamHelper::RequestUserInfo		14
+10011700	CSteamHelper::GetSteamID	83			0
+10011760	CSteamHelper::GetCurrentBatteryPower	63			0
+10012a50	FUN_10012a50	49	10012a60->PTR___std_exception_destroy_10015110 | 10012a60->VCRUNTIME140.DLL::__std_exception_destroy		2
+100132ee	___scrt_dllmain_crt_thread_attach	31	100132ee->IPureServer::OnCL_QueryHost | 100132fa->IPureServer::OnCL_QueryHost | 10013303->IPureServer::OnCL_QueryHost		3
+1001330d	___scrt_dllmain_crt_thread_detach	13	1001330d->IPureServer::OnCL_QueryHost | 10013312->IPureServer::OnCL_QueryHost		2
+10013371	FUN_10013371	13	10013373->IPureServer::OnCL_QueryHost | 10013379->IPureServer::OnCL_QueryHost		2
+1001337e	___scrt_initialize_crt	57	10013393->IPureServer::OnCL_QueryHost | 100133a0->IPureServer::OnCL_QueryHost | 100133ab->IPureServer::OnCL_QueryHost		3
+100134ef	___scrt_uninitialize_crt	40	10013504->IPureServer::OnCL_QueryHost | 1001350c->IPureServer::OnCL_QueryHost		2
+10013e6a	FUN_10013e6a	12	10013e6f->VCRUNTIME140.DLL::__std_type_info_destroy_list		1
+1001402d	VCRUNTIME140.DLL::__std_type_info_destroy_list	6	1001402d->PTR___std_type_info_destroy_list_100150fc | 1001402d->VCRUNTIME140.DLL::__std_type_info_destroy_list		2

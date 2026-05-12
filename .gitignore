@@ -1,0 +1,29 @@
+# Installed xrMPE runtime and downloaded game assets
+/game/addons/
+/game/bin/
+/game/localization/
+/game/mp/
+/game/patches/
+/game/resources/
+/game/*.zip
+/game/*.msi
+
+# Launcher/runtime binaries
+/*.exe
+/*.log
+/userdata/
+
+# Ghidra local project databases are large and machine-specific.
+/ghidra_projects/
+
+# Build outputs
+/build/
+/out/
+/.vs/
+
+# Keep analysis reports and scripts versioned.
+!/.gitignore
+!/ghidra_scripts/
+!/ghidra_mod_output/
+!/xrmpe_openxray_multiplayer_analysis.md
+!/game/xray-16-dev/
