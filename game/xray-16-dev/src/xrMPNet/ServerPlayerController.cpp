@@ -6,16 +6,9 @@
 
 namespace xrmp::play
 {
-namespace
-{
-bool isFinite(float value)
-{
-    return std::isfinite(value) != 0;
-}
-} // namespace
-
 ServerPlayerController::ServerPlayerController(ServerPlayerControllerConfig config)
-    : config_(std::move(config)), inputBuffer_(config_.inputBuffer), suspicionTracker_(config_.suspicion)
+    : config_(std::move(config)), inputBuffer_(config_.inputBuffer), suspicionTracker_(config_.suspicion),
+      validator_(config_.validator)
 {
 }
 
@@ -57,10 +50,9 @@ bool ServerPlayerController::receiveInput(
         return false;
     }
 
-    auto& receiveTimes = client->second.recentReceiveTimes;
-    while (!receiveTimes.empty() && receiveTimes.front() + 1000 < receiveTimeMs)
-        receiveTimes.pop_front();
-    if (receiveTimes.size() >= config_.maxCommandsPerSecond)
+    const anticheat::RateLimitDecision rateLimit =
+        rateLimiter_.allow(clientId, "input", receiveTimeMs, config_.inputRateLimit);
+    if (!rateLimit.allowed)
     {
         addSuspicion(clientId, SuspicionReason::RateLimitExceeded, config_.rateLimitScore, receiveTimeMs,
             "too many input commands per second");
@@ -68,7 +60,6 @@ bool ServerPlayerController::receiveInput(
             *error = "input rate limit exceeded";
         return false;
     }
-    receiveTimes.push_back(receiveTimeMs);
 
     if (!command.validateChecksum())
     {
@@ -79,7 +70,7 @@ bool ServerPlayerController::receiveInput(
         return false;
     }
 
-    if (!validateInput(command, error))
+    if (!validator_.validateInput(command, error))
     {
         addSuspicion(clientId, SuspicionReason::InvalidInput, config_.invalidInputScore, receiveTimeMs,
             error ? *error : "invalid input payload");
@@ -170,6 +161,13 @@ bool ServerPlayerController::processHitRequest(const HitRequest& request, const 
         return false;
     }
 
+    if (!validator_.validateHitRequest(request, error))
+    {
+        addSuspicion(request.shooterClientId, SuspicionReason::InvalidHit, config_.invalidHitScore,
+            client->second.state.simulationTimeMs, error ? *error : "invalid hit request");
+        return false;
+    }
+
     const HitValidationResult result = validator.validate(request);
     if (!result.accepted)
     {
@@ -197,34 +195,6 @@ const SuspicionState* ServerPlayerController::suspicion(net::ClientId clientId) 
 bool ServerPlayerController::isKicked(net::ClientId clientId) const
 {
     return suspicionTracker_.isKicked(clientId);
-}
-
-bool ServerPlayerController::validateInput(const InputCmd& command, std::string* error) const
-{
-    if (!isFinite(command.moveForward) || !isFinite(command.moveRight) || !isFinite(command.lookYawDelta) ||
-        !isFinite(command.lookPitchDelta))
-    {
-        if (error)
-            *error = "input contains non-finite values";
-        return false;
-    }
-
-    if (std::fabs(command.moveForward) > 1.05f || std::fabs(command.moveRight) > 1.05f)
-    {
-        if (error)
-            *error = "movement axes exceed normalized range";
-        return false;
-    }
-
-    if (std::fabs(command.lookYawDelta) > config_.movement.maxLookDeltaPerCmd ||
-        std::fabs(command.lookPitchDelta) > config_.movement.maxLookDeltaPerCmd)
-    {
-        if (error)
-            *error = "look deltas exceed server plausibility limit";
-        return false;
-    }
-
-    return true;
 }
 
 void ServerPlayerController::addSuspicion(net::ClientId clientId, SuspicionReason reason, float scoreDelta,

@@ -75,6 +75,7 @@ int main()
     request.buildId = 7;
     request.assetChecksum = checksum(0x11);
     request.scriptChecksum = checksum(0x22);
+    request.configChecksum = checksum(0x33);
     request.authToken = "token";
     request.requestedSessionNonce = "resume-me";
 
@@ -91,13 +92,14 @@ int main()
     ok &= expect(decodedRequest.buildId == request.buildId, "build id roundtrip");
     ok &= expect(decodedRequest.assetChecksum == request.assetChecksum, "asset checksum roundtrip");
     ok &= expect(decodedRequest.scriptChecksum == request.scriptChecksum, "script checksum roundtrip");
+    ok &= expect(decodedRequest.configChecksum == request.configChecksum, "config checksum roundtrip");
     ok &= expect(decodedRequest.authToken == request.authToken, "auth token roundtrip");
     ok &= expect(decodedRequest.requestedSessionNonce == request.requestedSessionNonce, "resume nonce roundtrip");
 
-    const HandshakePolicy accepted{ ProtocolVersion, 7, checksum(0x11), checksum(0x22), { "token" } };
+    const HandshakePolicy accepted{ ProtocolVersion, 7, checksum(0x11), checksum(0x22), checksum(0x33), { "token" } };
     ok &= expect(!validateHandshake(accepted, decodedRequest).has_value(), "valid handshake accepted");
 
-    const HandshakePolicy rejected{ ProtocolVersion, 7, checksum(0xFF), checksum(0x22), { "token" } };
+    const HandshakePolicy rejected{ ProtocolVersion, 7, checksum(0xFF), checksum(0x22), checksum(0x33), { "token" } };
     const auto rejection = validateHandshake(rejected, decodedRequest);
     ok &= expect(rejection.has_value(), "invalid checksum rejected");
     ok &= expect(rejection && rejection->reason == DisconnectReason::AssetMismatch, "reject reason asset mismatch");

@@ -8,8 +8,12 @@ add_library(xrMPNet STATIC)
 target_sources(xrMPNet PRIVATE
     AIAuthorityController.cpp
     AIAuthorityController.h
+    AssetIntegrityCheck.cpp
+    AssetIntegrityCheck.h
     BitStream.h
     ByteStream.h
+    CommandValidator.cpp
+    CommandValidator.h
     EntityRegistry.cpp
     EntityRegistry.h
     GNSTransport.cpp
@@ -36,6 +40,8 @@ target_sources(xrMPNet PRIVATE
     NetTypes.h
     NpcReplication.cpp
     NpcReplication.h
+    RateLimiter.cpp
+    RateLimiter.h
     ReplicationComponents.h
     ReplicationTypes.h
     ScriptReplicationAPI.cpp
@@ -49,6 +55,8 @@ target_sources(xrMPNet PRIVATE
     SnapshotSerializer.cpp
     SnapshotSerializer.h
     SnapshotTypes.h
+    ServerSideHitAuthority.cpp
+    ServerSideHitAuthority.h
     ServerPlayerController.cpp
     ServerPlayerController.h
     SuspicionTracker.cpp
@@ -78,12 +86,12 @@ if (XRMP_WITH_OPENXRAY)
     endif()
 
     target_sources(xrMPNet PRIVATE
-        OpenXRayReplicationAdapter.cpp
-        OpenXRayReplicationAdapter.h
-        OpenXRayNpcReplicationAdapter.cpp
-        OpenXRayNpcReplicationAdapter.h
-        OpenXRayScriptReplicationBindings.cpp
-        OpenXRayScriptReplicationBindings.h
+    OpenXRayReplicationAdapter.cpp
+    OpenXRayReplicationAdapter.h
+    OpenXRayNpcReplicationAdapter.cpp
+    OpenXRayNpcReplicationAdapter.h
+    OpenXRayScriptReplicationBindings.cpp
+    OpenXRayScriptReplicationBindings.h
     )
 endif()
 
@@ -122,4 +130,7 @@ if (XRMP_BUILD_TESTS)
 
     add_executable(xrMPNetNpcReplicationTests tests/NpcReplicationTests.cpp)
     target_link_libraries(xrMPNetNpcReplicationTests PRIVATE xrMPNet)
+
+    add_executable(xrMPNetAntiCheatTests tests/AntiCheatTests.cpp)
+    target_link_libraries(xrMPNetAntiCheatTests PRIVATE xrMPNet)
 endif()

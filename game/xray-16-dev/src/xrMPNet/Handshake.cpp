@@ -44,6 +44,7 @@ Bytes serializeHandshakeRequest(const HandshakeRequest& request)
     writer.writePod(request.buildId);
     writeChecksum(writer, request.assetChecksum);
     writeChecksum(writer, request.scriptChecksum);
+    writeChecksum(writer, request.configChecksum);
     writer.writeString(request.authToken);
     writer.writeString(request.requestedSessionNonce);
     return payload;
@@ -57,6 +58,7 @@ HandshakeRequest deserializeHandshakeRequest(const Bytes& payload)
     request.buildId = reader.readPod<std::uint32_t>();
     request.assetChecksum = readChecksum(reader);
     request.scriptChecksum = readChecksum(reader);
+    request.configChecksum = readChecksum(reader);
     request.authToken = reader.readString();
     request.requestedSessionNonce = reader.readString();
 
@@ -134,8 +136,11 @@ std::optional<HandshakeReject> validateHandshake(const HandshakePolicy& policy, 
     if (request.buildId != policy.buildId)
         return HandshakeReject{ DisconnectReason::ProtocolMismatch, "build id mismatch" };
 
-    if (request.assetChecksum != policy.assetChecksum || request.scriptChecksum != policy.scriptChecksum)
-        return HandshakeReject{ DisconnectReason::AssetMismatch, "asset or script checksum mismatch" };
+    if (request.assetChecksum != policy.assetChecksum || request.scriptChecksum != policy.scriptChecksum ||
+        request.configChecksum != policy.configChecksum)
+    {
+        return HandshakeReject{ DisconnectReason::AssetMismatch, "asset, script, or config checksum mismatch" };
+    }
 
     if (!policy.acceptedAuthTokens.empty())
     {

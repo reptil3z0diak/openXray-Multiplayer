@@ -16,6 +16,10 @@ enum class SuspicionReason : std::uint8_t
     RateLimitExceeded = 2,
     TimeManipulation = 3,
     InvalidHit = 4,
+    InvalidMessage = 5,
+    UnauthorizedRpc = 6,
+    AssetIntegrityMismatch = 7,
+    InvalidDamage = 8,
 };
 
 struct SuspicionEvent

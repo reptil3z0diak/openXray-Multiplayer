@@ -1,7 +1,9 @@
 #pragma once
 
+#include "CommandValidator.h"
 #include "HitValidator.h"
 #include "InputBuffer.h"
+#include "RateLimiter.h"
 #include "SuspicionTracker.h"
 
 #include <deque>
@@ -17,7 +19,8 @@ struct ServerPlayerControllerConfig
     MovementConfig movement;
     rep::InputBufferConfig inputBuffer;
     SuspicionConfig suspicion;
-    std::uint32_t maxCommandsPerSecond = 90;
+    anticheat::RateLimitRule inputRateLimit{ 1000, 90, 250, 5000, 2.0f };
+    anticheat::CommandValidatorConfig validator;
     std::uint32_t firstInputDeltaMs = 50;
     float invalidChecksumScore = 40.0f;
     float invalidInputScore = 25.0f;
@@ -52,13 +55,14 @@ private:
         std::deque<std::uint32_t> recentReceiveTimes;
     };
 
-    bool validateInput(const InputCmd& command, std::string* error) const;
     void addSuspicion(net::ClientId clientId, SuspicionReason reason, float scoreDelta, std::uint32_t serverTimeMs,
         std::string detail);
 
     ServerPlayerControllerConfig config_{};
     rep::InputBuffer inputBuffer_;
     SuspicionTracker suspicionTracker_;
+    anticheat::RateLimiter rateLimiter_{};
+    anticheat::CommandValidator validator_{};
     std::unordered_map<net::ClientId, ClientRecord> clients_{};
 };
 } // namespace xrmp::play

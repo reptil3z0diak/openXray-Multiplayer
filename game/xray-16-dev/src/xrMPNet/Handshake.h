@@ -16,6 +16,7 @@ struct HandshakeRequest
     std::uint32_t buildId = 0;
     Checksum assetChecksum{};
     Checksum scriptChecksum{};
+    Checksum configChecksum{};
     std::string authToken;
     std::string requestedSessionNonce;
 };
@@ -41,6 +42,7 @@ struct HandshakePolicy
     std::uint32_t buildId = 0;
     Checksum assetChecksum{};
     Checksum scriptChecksum{};
+    Checksum configChecksum{};
     std::vector<std::string> acceptedAuthTokens;
 };
 

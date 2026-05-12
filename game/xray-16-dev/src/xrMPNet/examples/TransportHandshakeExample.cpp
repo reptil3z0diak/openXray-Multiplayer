@@ -31,6 +31,7 @@ void runServer()
     config.handshakePolicy.buildId = 42;
     config.handshakePolicy.assetChecksum = makeDemoChecksum(0xA1);
     config.handshakePolicy.scriptChecksum = makeDemoChecksum(0xB2);
+    config.handshakePolicy.configChecksum = makeDemoChecksum(0xC3);
     config.handshakePolicy.acceptedAuthTokens = { "dev-token" };
     ServerTransportSession session(transport, config);
 
@@ -77,6 +78,7 @@ void runClient(const char* host)
     config.handshake.buildId = 42;
     config.handshake.assetChecksum = makeDemoChecksum(0xA1);
     config.handshake.scriptChecksum = makeDemoChecksum(0xB2);
+    config.handshake.configChecksum = makeDemoChecksum(0xC3);
     config.handshake.authToken = "dev-token";
     config.reconnect.maxAttempts = 3;
 
