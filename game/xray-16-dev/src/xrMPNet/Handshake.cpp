@@ -3,6 +3,7 @@
 #include "ByteStream.h"
 
 #include <algorithm>
+#include <string_view>
 #include <stdexcept>
 
 namespace xrmp::net
@@ -44,6 +45,7 @@ Bytes serializeHandshakeRequest(const HandshakeRequest& request)
     writeChecksum(writer, request.assetChecksum);
     writeChecksum(writer, request.scriptChecksum);
     writer.writeString(request.authToken);
+    writer.writeString(request.requestedSessionNonce);
     return payload;
 }
 
@@ -56,6 +58,7 @@ HandshakeRequest deserializeHandshakeRequest(const Bytes& payload)
     request.assetChecksum = readChecksum(reader);
     request.scriptChecksum = readChecksum(reader);
     request.authToken = reader.readString();
+    request.requestedSessionNonce = reader.readString();
 
     if (!reader.eof())
         throw std::runtime_error("handshake request contains trailing bytes");
@@ -73,6 +76,7 @@ Bytes serializeHandshakeAccept(const HandshakeAccept& accept)
     writer.writePod(accept.serverTickRate);
     writer.writePod(accept.snapshotRate);
     writer.writeString(accept.sessionNonce);
+    writer.writePod(static_cast<std::uint8_t>(accept.resumedSession ? 1 : 0));
     return payload;
 }
 
@@ -84,6 +88,7 @@ HandshakeAccept deserializeHandshakeAccept(const Bytes& payload)
     accept.serverTickRate = reader.readPod<std::uint32_t>();
     accept.snapshotRate = reader.readPod<std::uint32_t>();
     accept.sessionNonce = reader.readString();
+    accept.resumedSession = reader.readPod<std::uint8_t>() != 0;
     if (!reader.eof())
         throw std::runtime_error("handshake accept contains trailing bytes");
     return accept;
@@ -105,6 +110,22 @@ HandshakeReject deserializeHandshakeReject(const Bytes& payload)
     return reject;
 }
 
+Bytes serializeDisconnectNotice(const DisconnectNotice& notice)
+{
+    return serializeRejectPayload(notice.reason, notice.diagnostic);
+}
+
+DisconnectNotice deserializeDisconnectNotice(const Bytes& payload)
+{
+    ByteReader reader(payload);
+    DisconnectNotice notice;
+    notice.reason = static_cast<DisconnectReason>(reader.readPod<std::uint16_t>());
+    notice.diagnostic = reader.readString();
+    if (!reader.eof())
+        throw std::runtime_error("disconnect notice contains trailing bytes");
+    return notice;
+}
+
 std::optional<HandshakeReject> validateHandshake(const HandshakePolicy& policy, const HandshakeRequest& request)
 {
     if (request.protocolVersion != policy.protocolVersion)
@@ -116,8 +137,13 @@ std::optional<HandshakeReject> validateHandshake(const HandshakePolicy& policy, 
     if (request.assetChecksum != policy.assetChecksum || request.scriptChecksum != policy.scriptChecksum)
         return HandshakeReject{ DisconnectReason::AssetMismatch, "asset or script checksum mismatch" };
 
-    if (!policy.requiredAuthToken.empty() && request.authToken != policy.requiredAuthToken)
-        return HandshakeReject{ DisconnectReason::AuthFailed, "auth token rejected" };
+    if (!policy.acceptedAuthTokens.empty())
+    {
+        const auto tokenAccepted = std::find(policy.acceptedAuthTokens.begin(), policy.acceptedAuthTokens.end(),
+            request.authToken);
+        if (tokenAccepted == policy.acceptedAuthTokens.end())
+            return HandshakeReject{ DisconnectReason::AuthFailed, "auth token rejected" };
+    }
 
     return std::nullopt;
 }
@@ -135,5 +161,11 @@ NetMessage makeHandshakeAcceptMessage(const HandshakeAccept& accept, Sequence se
 NetMessage makeHandshakeRejectMessage(const HandshakeReject& reject, Sequence sequence)
 {
     return NetMessage{ MessageType::HandshakeReject, Channel::ReliableOrdered, sequence, serializeHandshakeReject(reject) };
+}
+
+NetMessage makeDisconnectNoticeMessage(const DisconnectNotice& notice, Sequence sequence)
+{
+    return NetMessage{ MessageType::DisconnectNotice, Channel::ReliableOrdered, sequence,
+        serializeDisconnectNotice(notice) };
 }
 } // namespace xrmp::net

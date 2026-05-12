@@ -1,12 +1,15 @@
-# xrMPNet Session 1
+# xrMPNet Sessions 1-2
 
-Transport and handshake module for the custom multiplayer stack.
+Transport, handshake, and replication-core module for the custom multiplayer stack.
 
 ## Build options
 
 - `XRMP_ENABLE_GNS=OFF` by default: builds the interface, codecs, handshake, and a stub `GNSTransport`.
 - `XRMP_ENABLE_GNS=ON`: requires Valve GameNetworkingSockets headers and library discoverable by CMake.
+- `XRMP_WITH_OPENXRAY=OFF` by default: builds the generic replication layer without direct engine headers.
+- `XRMP_WITH_OPENXRAY=ON`: adds the optional `CSE_Abstract` and `NET_Packet` adapter layer. This path expects the normal OpenXRay engine build context and compile definitions, not a header-only standalone build.
 - `XRMP_BUILD_TESTS=ON`: builds `xrMPNetHandshakeCodecTests`.
+- `XRMP_BUILD_TESTS=ON`: also builds `xrMPNetReplicationLayerTests`.
 - `XRMP_BUILD_EXAMPLES=ON`: builds `xrMPNetTransportHandshakeExample`.
 
 ## OpenXRay-specific binding points
@@ -18,6 +21,7 @@ Future integration should bind:
 - auth token source from launcher/session service;
 - server tick from the game scheduler;
 - user messages from the replication and event channels.
+- health/animation/inventory extraction hooks from concrete `CSE_Abstract` subclasses in `xrGame`.
 
 ## Minimal test
 
@@ -25,6 +29,7 @@ Future integration should bind:
 cmake -S . -B build/xrmp -DXRMP_BUILD_TESTS=ON -DXRMP_ENABLE_GNS=OFF
 cmake --build build/xrmp --target xrMPNetHandshakeCodecTests
 build/xrmp/src/xrMPNet/xrMPNetHandshakeCodecTests
+build/xrmp/src/xrMPNet/xrMPNetReplicationLayerTests
 ```
 
 ## GNS example

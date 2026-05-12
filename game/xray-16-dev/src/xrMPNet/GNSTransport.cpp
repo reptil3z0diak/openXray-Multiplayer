@@ -1,11 +1,13 @@
 #include "GNSTransport.h"
 
+#include "Handshake.h"
 #include "NetMessageCodec.h"
 
 #include <deque>
 #include <exception>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #if XRMP_ENABLE_GNS
 #include <steam/isteamnetworkingutils.h>
@@ -54,11 +56,13 @@ struct GNSTransport::Impl
     HSteamNetPollGroup pollGroup = k_HSteamNetPollGroup_Invalid;
     std::deque<TransportEvent> pending;
     std::unordered_map<ConnectionId, TransportMetrics> metrics;
+    std::unordered_set<ConnectionId> activeConnections;
 };
 
 namespace
 {
 GNSTransport::Impl* g_activeTransport = nullptr;
+constexpr int GnsAppDisconnectBase = k_ESteamNetConnectionEnd_App_Min + 100;
 
 int deliveryFlags(Channel channel)
 {
@@ -83,11 +87,22 @@ HSteamNetConnection toGnsId(ConnectionId connection)
 
 DisconnectReason mapEndReason(int endReason)
 {
+    if (endReason >= GnsAppDisconnectBase &&
+        endReason < GnsAppDisconnectBase + static_cast<int>(DisconnectReason::TransportError) + 1)
+    {
+        return static_cast<DisconnectReason>(endReason - GnsAppDisconnectBase);
+    }
+
     if (endReason == k_ESteamNetConnectionEnd_AppException_Generic)
         return DisconnectReason::TransportError;
     if (endReason >= k_ESteamNetConnectionEnd_App_Min && endReason <= k_ESteamNetConnectionEnd_App_Max)
         return DisconnectReason::RemoteClosed;
     return DisconnectReason::Timeout;
+}
+
+int toGnsEndReason(DisconnectReason reason)
+{
+    return GnsAppDisconnectBase + static_cast<int>(reason);
 }
 
 void onConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t* info)
@@ -99,16 +114,26 @@ void onConnectionStatusChanged(SteamNetConnectionStatusChangedCallback_t* info)
     switch (info->m_info.m_eState)
     {
     case k_ESteamNetworkingConnectionState_Connecting:
-        g_activeTransport->sockets->AcceptConnection(info->m_hConn);
+        if (g_activeTransport->sockets->AcceptConnection(info->m_hConn) != k_EResultOK)
+        {
+            g_activeTransport->pending.push_back(TransportEvent{ TransportEvent::Kind::Disconnected, connection,
+                DisconnectReason::TransportError, "AcceptConnection failed", {} });
+            g_activeTransport->sockets->CloseConnection(
+                info->m_hConn, toGnsEndReason(DisconnectReason::TransportError), "AcceptConnection failed", false);
+            break;
+        }
+
         if (g_activeTransport->pollGroup != k_HSteamNetPollGroup_Invalid)
             g_activeTransport->sockets->SetConnectionPollGroup(info->m_hConn, g_activeTransport->pollGroup);
         break;
     case k_ESteamNetworkingConnectionState_Connected:
+        g_activeTransport->activeConnections.insert(connection);
         g_activeTransport->pending.push_back(
             TransportEvent{ TransportEvent::Kind::Connected, connection, DisconnectReason::RemoteClosed, {}, {} });
         break;
     case k_ESteamNetworkingConnectionState_ClosedByPeer:
     case k_ESteamNetworkingConnectionState_ProblemDetectedLocally:
+        g_activeTransport->activeConnections.erase(connection);
         g_activeTransport->pending.push_back(TransportEvent{ TransportEvent::Kind::Disconnected, connection,
             mapEndReason(info->m_info.m_eEndReason), info->m_info.m_szEndDebug, {} });
         g_activeTransport->metrics.erase(connection);
@@ -192,6 +217,8 @@ ConnectionId GNSTransport::connect(const TransportEndpoint& endpoint, std::strin
     if (impl_->pollGroup != k_HSteamNetPollGroup_Invalid)
         impl_->sockets->SetConnectionPollGroup(connection, impl_->pollGroup);
 
+    impl_->activeConnections.insert(toPublicId(connection));
+
     return toPublicId(connection);
 }
 
@@ -200,7 +227,20 @@ void GNSTransport::disconnect(ConnectionId connection, DisconnectReason reason, 
     if (!impl_->sockets || connection == InvalidConnectionId)
         return;
 
-    impl_->sockets->CloseConnection(toGnsId(connection), static_cast<int>(reason), diagnostic.data(), false);
+    const NetMessage notice = makeDisconnectNoticeMessage(DisconnectNotice{ reason, std::string(diagnostic) }, 0);
+    try
+    {
+        const Bytes wire = serializeMessage(notice);
+        impl_->sockets->SendMessageToConnection(
+            toGnsId(connection), wire.data(), static_cast<std::uint32_t>(wire.size()), k_nSteamNetworkingSend_Reliable,
+            nullptr);
+    }
+    catch (const std::exception&)
+    {
+    }
+
+    impl_->sockets->CloseConnection(toGnsId(connection), toGnsEndReason(reason), diagnostic.data(), true);
+    impl_->activeConnections.erase(connection);
     impl_->metrics.erase(connection);
 }
 
@@ -222,6 +262,10 @@ void GNSTransport::shutdown()
         impl_->listenSocket = k_HSteamListenSocket_Invalid;
     }
 
+    for (const ConnectionId connection : impl_->activeConnections)
+        impl_->sockets->CloseConnection(toGnsId(connection), toGnsEndReason(DisconnectReason::LocalRequest),
+            "transport shutdown", true);
+
     if (impl_->pollGroup != k_HSteamNetPollGroup_Invalid)
     {
         impl_->sockets->DestroyPollGroup(impl_->pollGroup);
@@ -229,6 +273,7 @@ void GNSTransport::shutdown()
     }
 
     impl_->pending.clear();
+    impl_->activeConnections.clear();
     impl_->metrics.clear();
     impl_->sockets = nullptr;
 }
@@ -305,6 +350,10 @@ std::optional<TransportEvent> GNSTransport::poll()
             event.kind = TransportEvent::Kind::Disconnected;
             event.reason = DisconnectReason::ProtocolMismatch;
             event.diagnostic = e.what();
+            impl_->activeConnections.erase(connection);
+            impl_->metrics.erase(connection);
+            impl_->sockets->CloseConnection(
+                toGnsId(connection), toGnsEndReason(DisconnectReason::ProtocolMismatch), e.what(), false);
         }
 
         impl_->pending.push_back(std::move(event));

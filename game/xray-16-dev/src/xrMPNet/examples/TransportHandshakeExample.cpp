@@ -1,6 +1,5 @@
 #include "GNSTransport.h"
-#include "Handshake.h"
-#include "NetMessageCodec.h"
+#include "TransportSession.h"
 
 #include <chrono>
 #include <iostream>
@@ -27,39 +26,40 @@ void runServer()
         return;
     }
 
-    const HandshakePolicy policy{ ProtocolVersion, 42, makeDemoChecksum(0xA1), makeDemoChecksum(0xB2), "dev-token" };
-    ClientId nextClientId = 1;
+    ServerSessionConfig config;
+    config.handshakePolicy.protocolVersion = ProtocolVersion;
+    config.handshakePolicy.buildId = 42;
+    config.handshakePolicy.assetChecksum = makeDemoChecksum(0xA1);
+    config.handshakePolicy.scriptChecksum = makeDemoChecksum(0xB2);
+    config.handshakePolicy.acceptedAuthTokens = { "dev-token" };
+    ServerTransportSession session(transport, config);
 
     while (true)
     {
-        while (auto event = transport.poll())
+        while (auto event = session.pump(std::chrono::steady_clock::now(), &error))
         {
-            if (event->kind == TransportEvent::Kind::Disconnected)
+            if (event->kind == ServerSessionEvent::Kind::ClientAccepted)
             {
-                std::cout << "client disconnected: " << event->diagnostic << "\n";
+                std::cout << "client " << event->clientId << (event->accept.resumedSession ? " resumed" : " connected")
+                          << "\n";
                 continue;
             }
 
-            if (event->kind != TransportEvent::Kind::Message ||
-                event->message.type != MessageType::HandshakeRequest)
+            if (event->kind == ServerSessionEvent::Kind::ClientRejected)
             {
+                std::cout << "client rejected: " << event->reject.message << "\n";
                 continue;
             }
 
-            HandshakeRequest request = deserializeHandshakeRequest(event->message.payload);
-            if (auto reject = validateHandshake(policy, request))
+            if (event->kind == ServerSessionEvent::Kind::ClientDisconnected)
             {
-                transport.send(event->connection, makeHandshakeRejectMessage(*reject, event->message.sequence + 1), &error);
-                transport.disconnect(event->connection, reject->reason, reject->message);
+                std::cout << "client disconnected: " << event->disconnect.diagnostic << "\n";
                 continue;
             }
 
-            HandshakeAccept accept;
-            accept.assignedClientId = nextClientId++;
-            accept.serverTickRate = 30;
-            accept.snapshotRate = 20;
-            accept.sessionNonce = "demo-session";
-            transport.send(event->connection, makeHandshakeAcceptMessage(accept, event->message.sequence + 1), &error);
+            if (event->kind == ServerSessionEvent::Kind::Message && event->message.type == MessageType::UserReliable)
+                session.send(event->clientId, MessageType::UserReliable, Channel::ReliableOrdered, event->message.payload,
+                    &error);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -70,44 +70,67 @@ void runClient(const char* host)
 {
     GNSTransport transport;
     std::string error;
-    const ConnectionId connection = transport.connect({ host, 5446 }, &error);
-    if (connection == InvalidConnectionId)
+
+    ClientSessionConfig config;
+    config.endpoint = { host, 5446 };
+    config.handshake.protocolVersion = ProtocolVersion;
+    config.handshake.buildId = 42;
+    config.handshake.assetChecksum = makeDemoChecksum(0xA1);
+    config.handshake.scriptChecksum = makeDemoChecksum(0xB2);
+    config.handshake.authToken = "dev-token";
+    config.reconnect.maxAttempts = 3;
+
+    ClientTransportSession session(transport, config);
+    if (!session.start(&error))
     {
         std::cerr << "client connect failed: " << error << "\n";
         return;
     }
 
-    HandshakeRequest request;
-    request.protocolVersion = ProtocolVersion;
-    request.buildId = 42;
-    request.assetChecksum = makeDemoChecksum(0xA1);
-    request.scriptChecksum = makeDemoChecksum(0xB2);
-    request.authToken = "dev-token";
-    transport.send(connection, makeHandshakeRequestMessage(request, 1), &error);
+    bool pingSent = false;
 
     while (true)
     {
-        while (auto event = transport.poll())
+        while (auto event = session.pump(std::chrono::steady_clock::now(), &error))
         {
-            if (event->kind == TransportEvent::Kind::Disconnected)
+            if (event->kind == ClientSessionEvent::Kind::Connected)
             {
-                std::cerr << "server disconnected: " << event->diagnostic << "\n";
+                std::cout << "connected as client " << event->accept.assignedClientId
+                          << (event->accept.resumedSession ? " (resumed)" : "") << "\n";
+                if (!pingSent)
+                {
+                    Bytes payload{ 'p', 'i', 'n', 'g' };
+                    session.send(MessageType::UserReliable, Channel::ReliableOrdered, std::move(payload), &error);
+                    pingSent = true;
+                }
+                continue;
+            }
+
+            if (event->kind == ClientSessionEvent::Kind::Message)
+            {
+                std::cout << "echo received: "
+                          << std::string(reinterpret_cast<const char*>(event->message.payload.data()),
+                                 event->message.payload.size())
+                          << "\n";
                 return;
             }
 
-            if (event->kind == TransportEvent::Kind::Message &&
-                event->message.type == MessageType::HandshakeAccept)
+            if (event->kind == ClientSessionEvent::Kind::HandshakeRejected)
             {
-                const HandshakeAccept accept = deserializeHandshakeAccept(event->message.payload);
-                std::cout << "connected as client " << accept.assignedClientId << "\n";
+                std::cerr << "handshake rejected: " << event->reject.message << "\n";
                 return;
             }
 
-            if (event->kind == TransportEvent::Kind::Message &&
-                event->message.type == MessageType::HandshakeReject)
+            if (event->kind == ClientSessionEvent::Kind::Reconnecting)
             {
-                const HandshakeReject reject = deserializeHandshakeReject(event->message.payload);
-                std::cerr << "handshake rejected: " << reject.message << "\n";
+                std::cerr << "server disconnected, reconnect attempt " << event->reconnectAttempt << " in "
+                          << event->retryDelayMs << " ms\n";
+                continue;
+            }
+
+            if (event->kind == ClientSessionEvent::Kind::Disconnected)
+            {
+                std::cerr << "server disconnected: " << event->disconnect.diagnostic << "\n";
                 return;
             }
         }

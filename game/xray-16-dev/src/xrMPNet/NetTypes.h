@@ -22,6 +22,17 @@ inline constexpr std::uint32_t MaxPayloadBytes = 32 * 1024;
 inline constexpr std::size_t ChecksumBytes = 32;
 inline constexpr std::size_t AuthTokenMaxBytes = 256;
 
+enum class SessionState : std::uint8_t
+{
+    Idle = 0,
+    ConnectingTransport,
+    WaitingHandshake,
+    Connected,
+    Reconnecting,
+    Closed,
+    Failed,
+};
+
 enum class MessageType : std::uint16_t
 {
     Invalid = 0,
