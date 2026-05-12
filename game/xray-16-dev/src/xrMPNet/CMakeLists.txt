@@ -14,11 +14,19 @@ target_sources(xrMPNet PRIVATE
     GNSTransport.h
     Handshake.cpp
     Handshake.h
+    HitValidator.cpp
+    HitValidator.h
     ITransport.h
+    ClientPrediction.cpp
+    ClientPrediction.h
+    InputCommand.cpp
+    InputCommand.h
     InputBuffer.cpp
     InputBuffer.h
     InterestManager.cpp
     InterestManager.h
+    NetRpc.cpp
+    NetRpc.h
     NetMessageCodec.cpp
     NetMessageCodec.h
     NetEntity.cpp
@@ -26,6 +34,8 @@ target_sources(xrMPNet PRIVATE
     NetTypes.h
     ReplicationComponents.h
     ReplicationTypes.h
+    ScriptReplicationAPI.cpp
+    ScriptReplicationAPI.h
     SnapshotBuffer.cpp
     SnapshotBuffer.h
     SnapshotBuilder.cpp
@@ -35,8 +45,12 @@ target_sources(xrMPNet PRIVATE
     SnapshotSerializer.cpp
     SnapshotSerializer.h
     SnapshotTypes.h
-    ReplicationComponents.h
-    ReplicationTypes.h
+    ServerPlayerController.cpp
+    ServerPlayerController.h
+    SuspicionTracker.cpp
+    SuspicionTracker.h
+    SyncVar.cpp
+    SyncVar.h
     TransportSession.cpp
     TransportSession.h
 )
@@ -62,6 +76,8 @@ if (XRMP_WITH_OPENXRAY)
     target_sources(xrMPNet PRIVATE
         OpenXRayReplicationAdapter.cpp
         OpenXRayReplicationAdapter.h
+        OpenXRayScriptReplicationBindings.cpp
+        OpenXRayScriptReplicationBindings.h
     )
 endif()
 
@@ -91,4 +107,10 @@ if (XRMP_BUILD_TESTS)
 
     add_executable(xrMPNetSnapshotSystemTests tests/SnapshotSystemTests.cpp)
     target_link_libraries(xrMPNetSnapshotSystemTests PRIVATE xrMPNet)
+
+    add_executable(xrMPNetInputAuthorityTests tests/InputAuthorityTests.cpp)
+    target_link_libraries(xrMPNetInputAuthorityTests PRIVATE xrMPNet)
+
+    add_executable(xrMPNetScriptReplicationTests tests/ScriptReplicationTests.cpp)
+    target_link_libraries(xrMPNetScriptReplicationTests PRIVATE xrMPNet)
 endif()

@@ -72,6 +72,13 @@ public:
         return std::string(reinterpret_cast<const char*>(bytes.data()), bytes.size());
     }
 
+    Bytes remainingBytes()
+    {
+        Bytes out(input_.begin() + static_cast<std::ptrdiff_t>(offset_), input_.end());
+        offset_ = input_.size();
+        return out;
+    }
+
     bool eof() const { return offset_ == input_.size(); }
 
 private:

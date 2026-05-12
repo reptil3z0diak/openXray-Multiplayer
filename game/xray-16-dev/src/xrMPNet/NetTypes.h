@@ -42,6 +42,11 @@ enum class MessageType : std::uint16_t
     DisconnectNotice = 4,
     SnapshotDelta = 10,
     ReliableEvent = 11,
+    InputCommand = 12,
+    PlayerCorrection = 13,
+    HitRequest = 14,
+    RpcCall = 15,
+    SyncVarUpdate = 16,
     UserReliable = 100,
     UserUnreliable = 101,
 };

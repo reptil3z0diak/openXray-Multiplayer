@@ -1,6 +1,6 @@
-# xrMPNet Sessions 1-3
+# xrMPNet Sessions 1-5
 
-Transport, handshake, replication-core, and snapshot pipeline module for the custom multiplayer stack.
+Transport, handshake, replication-core, snapshot pipeline, input authority, and script replication module for the custom multiplayer stack.
 
 ## Build options
 
@@ -9,7 +9,7 @@ Transport, handshake, replication-core, and snapshot pipeline module for the cus
 - `XRMP_WITH_OPENXRAY=OFF` by default: builds the generic replication layer without direct engine headers.
 - `XRMP_WITH_OPENXRAY=ON`: adds the optional `CSE_Abstract` and `NET_Packet` adapter layer. This path expects the normal OpenXRay engine build context and compile definitions, not a header-only standalone build.
 - `XRMP_BUILD_TESTS=ON`: builds `xrMPNetHandshakeCodecTests`.
-- `XRMP_BUILD_TESTS=ON`: also builds `xrMPNetReplicationLayerTests` and `xrMPNetSnapshotSystemTests`.
+- `XRMP_BUILD_TESTS=ON`: also builds `xrMPNetReplicationLayerTests`, `xrMPNetSnapshotSystemTests`, `xrMPNetInputAuthorityTests`, and `xrMPNetScriptReplicationTests`.
 - `XRMP_BUILD_EXAMPLES=ON`: builds `xrMPNetTransportHandshakeExample`.
 
 ## OpenXRay-specific binding points
@@ -22,7 +22,8 @@ Future integration should bind:
 - server tick from the game scheduler;
 - user messages from the replication and event channels.
 - health/animation/inventory extraction hooks from concrete `CSE_Abstract` subclasses in `xrGame`.
-- final gameplay-specific input schema and prediction reconciliation on top of the generic `InputBuffer`.
+- final gameplay-specific actor controller hooks, weapon logic, and damage application on top of the generic input authority layer.
+- final registration site for the Luabind bridge inside the normal OpenXRay script export startup.
 
 ## Minimal test
 
@@ -32,6 +33,8 @@ cmake --build build/xrmp --target xrMPNetHandshakeCodecTests
 build/xrmp/src/xrMPNet/xrMPNetHandshakeCodecTests
 build/xrmp/src/xrMPNet/xrMPNetReplicationLayerTests
 build/xrmp/src/xrMPNet/xrMPNetSnapshotSystemTests
+build/xrmp/src/xrMPNet/xrMPNetInputAuthorityTests
+build/xrmp/src/xrMPNet/xrMPNetScriptReplicationTests
 ```
 
 ## GNS example
