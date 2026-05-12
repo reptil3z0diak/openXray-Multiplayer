@@ -6,6 +6,8 @@ option(XRMP_WITH_OPENXRAY "Build xrMPNet OpenXRay entity/packet adapter" OFF)
 add_library(xrMPNet STATIC)
 
 target_sources(xrMPNet PRIVATE
+    AIAuthorityController.cpp
+    AIAuthorityController.h
     BitStream.h
     ByteStream.h
     EntityRegistry.cpp
@@ -32,6 +34,8 @@ target_sources(xrMPNet PRIVATE
     NetEntity.cpp
     NetEntity.h
     NetTypes.h
+    NpcReplication.cpp
+    NpcReplication.h
     ReplicationComponents.h
     ReplicationTypes.h
     ScriptReplicationAPI.cpp
@@ -76,6 +80,8 @@ if (XRMP_WITH_OPENXRAY)
     target_sources(xrMPNet PRIVATE
         OpenXRayReplicationAdapter.cpp
         OpenXRayReplicationAdapter.h
+        OpenXRayNpcReplicationAdapter.cpp
+        OpenXRayNpcReplicationAdapter.h
         OpenXRayScriptReplicationBindings.cpp
         OpenXRayScriptReplicationBindings.h
     )
@@ -113,4 +119,7 @@ if (XRMP_BUILD_TESTS)
 
     add_executable(xrMPNetScriptReplicationTests tests/ScriptReplicationTests.cpp)
     target_link_libraries(xrMPNetScriptReplicationTests PRIVATE xrMPNet)
+
+    add_executable(xrMPNetNpcReplicationTests tests/NpcReplicationTests.cpp)
+    target_link_libraries(xrMPNetNpcReplicationTests PRIVATE xrMPNet)
 endif()

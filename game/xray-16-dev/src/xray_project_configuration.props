@@ -12,6 +12,11 @@
   </PropertyGroup>
 
   <Choose>
+    <When Condition="'$(DefaultPlatformToolset)' == 'v145' and '$(v145_Installed)' == 'true'">
+      <PropertyGroup Label="Configuration">
+        <PlatformToolset>v145</PlatformToolset>
+      </PropertyGroup>
+    </When>
     <When Condition="'$(DefaultPlatformToolset)' == 'v143' and '$(v143_Installed)' == 'true'">
       <PropertyGroup Label="Configuration">
         <PlatformToolset>v143</PlatformToolset>

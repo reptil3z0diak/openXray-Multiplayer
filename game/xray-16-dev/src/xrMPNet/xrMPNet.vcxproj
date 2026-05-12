@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\xray_project_configurations.props" />
+  </ImportGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5B7D0CA6-1D29-4F80-AB65-95AFBFD53C9A}</ProjectGuid>
+    <RootNamespace>xrMPNet</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\xray_project_configuration.props" />
+  </ImportGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\xray.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>XRMP_WITH_OPENXRAY=0;XRMP_ENABLE_GNS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AIAuthorityController.cpp" />
+    <ClCompile Include="ClientPrediction.cpp" />
+    <ClCompile Include="EntityRegistry.cpp" />
+    <ClCompile Include="GNSTransport.cpp" />
+    <ClCompile Include="Handshake.cpp" />
+    <ClCompile Include="HitValidator.cpp" />
+    <ClCompile Include="InputBuffer.cpp" />
+    <ClCompile Include="InputCommand.cpp" />
+    <ClCompile Include="InterestManager.cpp" />
+    <ClCompile Include="NetMessageCodec.cpp" />
+    <ClCompile Include="NetEntity.cpp" />
+    <ClCompile Include="NetRpc.cpp" />
+    <ClCompile Include="NpcReplication.cpp" />
+    <ClCompile Include="ScriptReplicationAPI.cpp" />
+    <ClCompile Include="ServerPlayerController.cpp" />
+    <ClCompile Include="SnapshotBuffer.cpp" />
+    <ClCompile Include="SnapshotBuilder.cpp" />
+    <ClCompile Include="SnapshotChannels.cpp" />
+    <ClCompile Include="SnapshotSerializer.cpp" />
+    <ClCompile Include="SuspicionTracker.cpp" />
+    <ClCompile Include="SyncVar.cpp" />
+    <ClCompile Include="TransportSession.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIAuthorityController.h" />
+    <ClInclude Include="BitStream.h" />
+    <ClInclude Include="ByteStream.h" />
+    <ClInclude Include="ClientPrediction.h" />
+    <ClInclude Include="EntityRegistry.h" />
+    <ClInclude Include="GNSTransport.h" />
+    <ClInclude Include="Handshake.h" />
+    <ClInclude Include="HitValidator.h" />
+    <ClInclude Include="InputBuffer.h" />
+    <ClInclude Include="InputCommand.h" />
+    <ClInclude Include="InterestManager.h" />
+    <ClInclude Include="ITransport.h" />
+    <ClInclude Include="NetEntity.h" />
+    <ClInclude Include="NetMessageCodec.h" />
+    <ClInclude Include="NetRpc.h" />
+    <ClInclude Include="NetTypes.h" />
+    <ClInclude Include="NpcReplication.h" />
+    <ClInclude Include="OpenXRayNpcReplicationAdapter.h" />
+    <ClInclude Include="OpenXRayReplicationAdapter.h" />
+    <ClInclude Include="OpenXRayScriptReplicationBindings.h" />
+    <ClInclude Include="ReplicationComponents.h" />
+    <ClInclude Include="ReplicationTypes.h" />
+    <ClInclude Include="ScriptReplicationAPI.h" />
+    <ClInclude Include="ServerPlayerController.h" />
+    <ClInclude Include="SnapshotBuffer.h" />
+    <ClInclude Include="SnapshotBuilder.h" />
+    <ClInclude Include="SnapshotChannels.h" />
+    <ClInclude Include="SnapshotSerializer.h" />
+    <ClInclude Include="SnapshotTypes.h" />
+    <ClInclude Include="SuspicionTracker.h" />
+    <ClInclude Include="SyncVar.h" />
+    <ClInclude Include="TransportSession.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{edb0dfaf-5d6f-4d74-ae66-0ddade12a7f6}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="examples\ScriptReplicationExamples.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\OpenXRay.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

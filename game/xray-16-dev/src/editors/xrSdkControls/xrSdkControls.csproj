@@ -9,8 +9,8 @@
     <RootNamespace>XRay.SdkControls</RootNamespace>
     <ProjectGuid>{E9DC16A3-D0FA-4924-AF6E-F6FDF3EA0661}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <OutputPath>$(xrBinDir)</OutputPath>
-    <IntermediateOutputPath>$(xrIntDir)$(AssemblyName)</IntermediateOutputPath>
+    <OutputPath>..\..\..\bin\AnyCPU\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\..\build\intermediate\AnyCPU\$(Configuration)\$(AssemblyName)\</IntermediateOutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -31,9 +31,6 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Flobbster.Windows.Forms.PropertyGrid">
-      <HintPath>$(xrSdkDir)binaries\Flobbster.Windows.Forms.PropertyGrid.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -55,6 +52,7 @@
     <Compile Include="Controls\ColorPicker\ColorPicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\FlobbsterPropertyBag.cs" />
     <Compile Include="Controls\ColorPicker\ColorPicker.Designer.cs">
       <DependentUpon>ColorPicker.cs</DependentUpon>
     </Compile>

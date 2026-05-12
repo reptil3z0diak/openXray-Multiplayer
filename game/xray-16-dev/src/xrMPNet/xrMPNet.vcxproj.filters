@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{B526EC07-8149-4866-AF0F-4EEA57DAD746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{0935874A-F3CC-4EEA-A783-1CF3FC1E1222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Replication">
+      <UniqueIdentifier>{1C75D3D9-A883-4ED0-8BF5-3680E0737E71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Snapshots">
+      <UniqueIdentifier>{84F0D2C9-6E1D-4AB7-96F7-E1C1B67F4F20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{8DBCFB76-C91A-4510-AE4A-AFBD20D073E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{A07A9DA4-FEEE-4FEA-A8BC-B9F9521084B8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AIAuthorityController.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPrediction.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityRegistry.cpp">
+      <Filter>Replication</Filter>
+    </ClCompile>
+    <ClCompile Include="GNSTransport.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Handshake.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="HitValidator.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputBuffer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InputCommand.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InterestManager.cpp">
+      <Filter>Replication</Filter>
+    </ClCompile>
+    <ClCompile Include="NetMessageCodec.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NetEntity.cpp">
+      <Filter>Replication</Filter>
+    </ClCompile>
+    <ClCompile Include="NetRpc.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="NpcReplication.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptReplicationAPI.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPlayerController.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotBuffer.cpp">
+      <Filter>Snapshots</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotBuilder.cpp">
+      <Filter>Snapshots</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotChannels.cpp">
+      <Filter>Snapshots</Filter>
+    </ClCompile>
+    <ClCompile Include="SnapshotSerializer.cpp">
+      <Filter>Snapshots</Filter>
+    </ClCompile>
+    <ClCompile Include="SuspicionTracker.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SyncVar.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="TransportSession.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIAuthorityController.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="BitStream.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteStream.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPrediction.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityRegistry.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="GNSTransport.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Handshake.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="HitValidator.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputBuffer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCommand.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InterestManager.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="ITransport.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NetEntity.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="NetMessageCodec.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NetRpc.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="NetTypes.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NpcReplication.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenXRayNpcReplicationAdapter.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenXRayReplicationAdapter.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenXRayScriptReplicationBindings.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplicationComponents.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplicationTypes.h">
+      <Filter>Replication</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptReplicationAPI.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPlayerController.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotBuffer.h">
+      <Filter>Snapshots</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotBuilder.h">
+      <Filter>Snapshots</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotChannels.h">
+      <Filter>Snapshots</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotSerializer.h">
+      <Filter>Snapshots</Filter>
+    </ClInclude>
+    <ClInclude Include="SnapshotTypes.h">
+      <Filter>Snapshots</Filter>
+    </ClInclude>
+    <ClInclude Include="SuspicionTracker.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SyncVar.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TransportSession.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="examples\ScriptReplicationExamples.lua">
+      <Filter>Examples</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\OpenXRay.natvis" />
+  </ItemGroup>
+</Project>
