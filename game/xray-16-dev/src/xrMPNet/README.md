@@ -1,6 +1,6 @@
-# xrMPNet Sessions 1-2
+# xrMPNet Sessions 1-3
 
-Transport, handshake, and replication-core module for the custom multiplayer stack.
+Transport, handshake, replication-core, and snapshot pipeline module for the custom multiplayer stack.
 
 ## Build options
 
@@ -9,7 +9,7 @@ Transport, handshake, and replication-core module for the custom multiplayer sta
 - `XRMP_WITH_OPENXRAY=OFF` by default: builds the generic replication layer without direct engine headers.
 - `XRMP_WITH_OPENXRAY=ON`: adds the optional `CSE_Abstract` and `NET_Packet` adapter layer. This path expects the normal OpenXRay engine build context and compile definitions, not a header-only standalone build.
 - `XRMP_BUILD_TESTS=ON`: builds `xrMPNetHandshakeCodecTests`.
-- `XRMP_BUILD_TESTS=ON`: also builds `xrMPNetReplicationLayerTests`.
+- `XRMP_BUILD_TESTS=ON`: also builds `xrMPNetReplicationLayerTests` and `xrMPNetSnapshotSystemTests`.
 - `XRMP_BUILD_EXAMPLES=ON`: builds `xrMPNetTransportHandshakeExample`.
 
 ## OpenXRay-specific binding points
@@ -22,6 +22,7 @@ Future integration should bind:
 - server tick from the game scheduler;
 - user messages from the replication and event channels.
 - health/animation/inventory extraction hooks from concrete `CSE_Abstract` subclasses in `xrGame`.
+- final gameplay-specific input schema and prediction reconciliation on top of the generic `InputBuffer`.
 
 ## Minimal test
 
@@ -30,6 +31,7 @@ cmake -S . -B build/xrmp -DXRMP_BUILD_TESTS=ON -DXRMP_ENABLE_GNS=OFF
 cmake --build build/xrmp --target xrMPNetHandshakeCodecTests
 build/xrmp/src/xrMPNet/xrMPNetHandshakeCodecTests
 build/xrmp/src/xrMPNet/xrMPNetReplicationLayerTests
+build/xrmp/src/xrMPNet/xrMPNetSnapshotSystemTests
 ```
 
 ## GNS example

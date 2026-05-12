@@ -40,6 +40,8 @@ enum class MessageType : std::uint16_t
     HandshakeAccept = 2,
     HandshakeReject = 3,
     DisconnectNotice = 4,
+    SnapshotDelta = 10,
+    ReliableEvent = 11,
     UserReliable = 100,
     UserUnreliable = 101,
 };

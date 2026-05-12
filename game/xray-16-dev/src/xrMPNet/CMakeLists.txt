@@ -6,21 +6,35 @@ option(XRMP_WITH_OPENXRAY "Build xrMPNet OpenXRay entity/packet adapter" OFF)
 add_library(xrMPNet STATIC)
 
 target_sources(xrMPNet PRIVATE
+    BitStream.h
     ByteStream.h
+    EntityRegistry.cpp
+    EntityRegistry.h
     GNSTransport.cpp
     GNSTransport.h
     Handshake.cpp
     Handshake.h
     ITransport.h
-    NetMessageCodec.cpp
-    NetMessageCodec.h
-    EntityRegistry.cpp
-    EntityRegistry.h
+    InputBuffer.cpp
+    InputBuffer.h
     InterestManager.cpp
     InterestManager.h
+    NetMessageCodec.cpp
+    NetMessageCodec.h
     NetEntity.cpp
     NetEntity.h
     NetTypes.h
+    ReplicationComponents.h
+    ReplicationTypes.h
+    SnapshotBuffer.cpp
+    SnapshotBuffer.h
+    SnapshotBuilder.cpp
+    SnapshotBuilder.h
+    SnapshotChannels.cpp
+    SnapshotChannels.h
+    SnapshotSerializer.cpp
+    SnapshotSerializer.h
+    SnapshotTypes.h
     ReplicationComponents.h
     ReplicationTypes.h
     TransportSession.cpp
@@ -74,4 +88,7 @@ if (XRMP_BUILD_TESTS)
 
     add_executable(xrMPNetReplicationLayerTests tests/ReplicationLayerTests.cpp)
     target_link_libraries(xrMPNetReplicationLayerTests PRIVATE xrMPNet)
+
+    add_executable(xrMPNetSnapshotSystemTests tests/SnapshotSystemTests.cpp)
+    target_link_libraries(xrMPNetSnapshotSystemTests PRIVATE xrMPNet)
 endif()
