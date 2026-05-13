@@ -31,7 +31,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIAuthorityController.cpp" />
+    <ClCompile Include="AssetIntegrityCheck.cpp" />
     <ClCompile Include="ClientPrediction.cpp" />
+    <ClCompile Include="CommandValidator.cpp" />
     <ClCompile Include="EntityRegistry.cpp" />
     <ClCompile Include="GNSTransport.cpp" />
     <ClCompile Include="Handshake.cpp" />
@@ -43,7 +45,9 @@
     <ClCompile Include="NetEntity.cpp" />
     <ClCompile Include="NetRpc.cpp" />
     <ClCompile Include="NpcReplication.cpp" />
+    <ClCompile Include="RateLimiter.cpp" />
     <ClCompile Include="ScriptReplicationAPI.cpp" />
+    <ClCompile Include="ServerSideHitAuthority.cpp" />
     <ClCompile Include="ServerPlayerController.cpp" />
     <ClCompile Include="SnapshotBuffer.cpp" />
     <ClCompile Include="SnapshotBuilder.cpp" />
@@ -55,9 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIAuthorityController.h" />
+    <ClInclude Include="AssetIntegrityCheck.h" />
     <ClInclude Include="BitStream.h" />
     <ClInclude Include="ByteStream.h" />
     <ClInclude Include="ClientPrediction.h" />
+    <ClInclude Include="CommandValidator.h" />
     <ClInclude Include="EntityRegistry.h" />
     <ClInclude Include="GNSTransport.h" />
     <ClInclude Include="Handshake.h" />
@@ -74,9 +80,11 @@
     <ClInclude Include="OpenXRayNpcReplicationAdapter.h" />
     <ClInclude Include="OpenXRayReplicationAdapter.h" />
     <ClInclude Include="OpenXRayScriptReplicationBindings.h" />
+    <ClInclude Include="RateLimiter.h" />
     <ClInclude Include="ReplicationComponents.h" />
     <ClInclude Include="ReplicationTypes.h" />
     <ClInclude Include="ScriptReplicationAPI.h" />
+    <ClInclude Include="ServerSideHitAuthority.h" />
     <ClInclude Include="ServerPlayerController.h" />
     <ClInclude Include="SnapshotBuffer.h" />
     <ClInclude Include="SnapshotBuilder.h" />

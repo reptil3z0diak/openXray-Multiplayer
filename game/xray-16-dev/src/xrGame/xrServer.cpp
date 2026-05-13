@@ -68,7 +68,8 @@ std::vector<xrmp::anticheat::IntegrityManifestEntry> collect_manifest_entries(pc
 
         xrmp::anticheat::IntegrityManifestEntry entry;
         entry.path = file.name;
-        entry.content.assign(reader->pointer(), reader->pointer() + reader->length());
+        const auto* begin = static_cast<const xrmp::net::Byte*>(reader->pointer());
+        entry.content.assign(begin, begin + reader->length());
         entries.push_back(std::move(entry));
         FS.r_close(reader);
     }
@@ -1256,7 +1257,7 @@ bool xrServer::AntiCheatValidateMessage(xrClientData* client, u16 messageType, N
         return false;
     }
 
-    const auto decision = state.limiter.allow(client->ID, bucket, Level().timeServer(), rule);
+    const auto decision = state.limiter.allow(client->ID.value(), bucket, Level().timeServer(), rule);
     if (!decision.allowed)
     {
         AntiCheatRegisterViolation(client, "Rate limit exceeded for client message bucket", 20.0f);
@@ -1278,10 +1279,10 @@ void xrServer::AntiCheatRegisterViolation(xrClientData* client, shared_str const
         return;
 
     auto& state = runtime_anticheat_state(*this);
-    state.suspicion.add(client->ID, xrmp::play::SuspicionReason::InvalidMessage, score, Level().timeServer(),
+    state.suspicion.add(client->ID.value(), xrmp::play::SuspicionReason::InvalidMessage, score, Level().timeServer(),
         detail.c_str());
 
-    const xrmp::play::SuspicionState* suspicion = state.suspicion.state(client->ID);
+    const xrmp::play::SuspicionState* suspicion = state.suspicion.state(client->ID.value());
     if (suspicion && suspicion->kicked)
         AddCheater(shared_str(detail), client->ID);
 }

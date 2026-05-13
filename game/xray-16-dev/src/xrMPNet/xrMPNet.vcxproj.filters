@@ -24,7 +24,13 @@
     <ClCompile Include="AIAuthorityController.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="AssetIntegrityCheck.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="ClientPrediction.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandValidator.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="EntityRegistry.cpp">
@@ -60,8 +66,14 @@
     <ClCompile Include="NpcReplication.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="RateLimiter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="ScriptReplicationAPI.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerSideHitAuthority.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ServerPlayerController.cpp">
       <Filter>Core</Filter>
@@ -92,6 +104,9 @@
     <ClInclude Include="AIAuthorityController.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="AssetIntegrityCheck.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="BitStream.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -99,6 +114,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ClientPrediction.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandValidator.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="EntityRegistry.h">
@@ -149,6 +167,9 @@
     <ClInclude Include="OpenXRayScriptReplicationBindings.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="RateLimiter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="ReplicationComponents.h">
       <Filter>Replication</Filter>
     </ClInclude>
@@ -157,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="ScriptReplicationAPI.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerSideHitAuthority.h">
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="ServerPlayerController.h">
       <Filter>Core</Filter>
