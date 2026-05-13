@@ -1212,6 +1212,9 @@ void game_sv_Deathmatch::OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Pac
     SHit HitS;
     HitS.Read_Packet(P);
 
+    if (!m_server->AntiCheatAuthorizeHit(id_hitter, id_hitted, HitS))
+        return;
+
     HitS.whoID = ps_hitter->GameID;
 
     OnPlayerHitPlayer_Case(ps_hitter, ps_hitted, &HitS);

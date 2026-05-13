@@ -20,9 +20,61 @@
 #include "ui/UIInventoryUtilities.h"
 #include "file_transfer.h"
 #include "screenshot_server.h"
+#include "Hit.h"
+#include "../xrMPNet/AssetIntegrityCheck.h"
+#include "../xrMPNet/RateLimiter.h"
+#include "../xrMPNet/ServerSideHitAuthority.h"
 #include "xrServer_info.h"
 #include "xrNetServer/NET_Messages.h"
 #include <functional>
+#include <unordered_map>
+
+namespace
+{
+struct xrServerAntiCheatState
+{
+    xrmp::anticheat::RateLimiter limiter;
+    xrmp::play::SuspicionTracker suspicion;
+    xrmp::anticheat::ServerSideHitAuthority hitAuthority;
+    xrmp::anticheat::IntegrityManifest manifest{};
+    u64 legacyAuthDigest = 0;
+};
+
+std::unordered_map<xrServer*, xrServerAntiCheatState> g_xrServerAntiCheatStates;
+
+xrServerAntiCheatState& runtime_anticheat_state(xrServer& server)
+{
+    return g_xrServerAntiCheatStates[&server];
+}
+
+xrmp::net::Checksum checksum_from_u64(u64 value)
+{
+    xrmp::net::Checksum checksum{};
+    for (std::size_t index = 0; index < checksum.size(); ++index)
+        checksum[index] = static_cast<xrmp::net::Byte>((value >> ((index % 8) * 8)) & 0xFF);
+    return checksum;
+}
+
+std::vector<xrmp::anticheat::IntegrityManifestEntry> collect_manifest_entries(pcstr alias, pcstr mask = nullptr)
+{
+    std::vector<xrmp::anticheat::IntegrityManifestEntry> entries;
+    FS_FileSet files;
+    FS.file_list(files, alias, FS_ListFiles, mask);
+    for (const auto& file : files)
+    {
+        IReader* reader = FS.r_open(alias, file.name.c_str());
+        if (!reader)
+            continue;
+
+        xrmp::anticheat::IntegrityManifestEntry entry;
+        entry.path = file.name;
+        entry.content.assign(reader->pointer(), reader->pointer() + reader->length());
+        entries.push_back(std::move(entry));
+        FS.r_close(reader);
+    }
+    return entries;
+}
+} // namespace
 
 xrClientData::xrClientData() : IClient(Device.GetTimerGlobal())
 {
@@ -50,6 +102,7 @@ xrServer::xrServer() : IPureServer(Device.GetTimerGlobal(), GEnv.isDedicatedServ
     m_server_rules = NULL;
     m_last_updates_size = 0;
     m_last_update_time = 0;
+    AntiCheatInitialize();
 }
 
 xrServer::~xrServer()
@@ -69,6 +122,7 @@ xrServer::~xrServer()
     delete_data(m_info_uploaders);
     xr_delete(m_server_logo);
     xr_delete(m_server_rules);
+    AntiCheatShutdown();
 }
 
 //--------------------------------------------------------------------
@@ -376,6 +430,8 @@ u32 xrServer::OnDelayedMessage(NET_Packet& P, ClientID sender) // Non-Zero means
 
     VERIFY(verify_entities());
     xrClientData* CL = ID_to_client(sender);
+    if (CL && !AntiCheatValidateMessage(CL, type, P))
+        return 0;
     // R_ASSERT2						(CL, make_string("packet type [%d]",type).c_str());
 
     switch (type)
@@ -1136,6 +1192,136 @@ void xrServer::AddCheater(shared_str const& reason, ClientID const& cheaterID)
     new_cheater.reason = reason;
     new_cheater.cheater_id = cheaterID;
     m_cheaters.push_back(new_cheater);
+}
+
+void xrServer::AntiCheatInitialize()
+{
+    xrServerAntiCheatState& state = runtime_anticheat_state(*this);
+    state.legacyAuthDigest = FS.auth_get();
+    state.manifest = xrmp::anticheat::AssetIntegrityCheck::buildManifest(
+        collect_manifest_entries("$game_sounds$", "material*"), collect_manifest_entries("$game_scripts$"),
+        collect_manifest_entries("$game_config$"));
+    if (state.manifest.assetChecksum == xrmp::net::Checksum{})
+        state.manifest.assetChecksum = checksum_from_u64(state.legacyAuthDigest);
+}
+
+void xrServer::AntiCheatShutdown()
+{
+    g_xrServerAntiCheatStates.erase(this);
+}
+
+bool xrServer::AntiCheatValidateMessage(xrClientData* client, u16 messageType, NET_Packet& packet)
+{
+    if (!client || client->flags.bLocal)
+        return true;
+
+    auto& state = runtime_anticheat_state(*this);
+    xrmp::anticheat::RateLimitRule rule{};
+    std::string bucket = "generic";
+    bool serverOnlyMessage = false;
+
+    switch (messageType)
+    {
+    case M_CL_INPUT:
+        bucket = "input";
+        rule.maxEvents = 90;
+        break;
+    case M_EVENT:
+        bucket = "event";
+        rule.maxEvents = 120;
+        break;
+    case M_CHAT_MESSAGE:
+        bucket = "chat";
+        rule.windowMs = 5000;
+        rule.maxEvents = 8;
+        break;
+    case M_PLAYER_FIRE:
+        bucket = "fire";
+        rule.maxEvents = 40;
+        break;
+    case M_CLIENT_CONNECT_RESULT:
+    case M_SV_CONFIG_NEW_CLIENT:
+    case M_SV_CONFIG_GAME:
+    case M_SV_CONFIG_FINISHED:
+    case M_SECURE_KEY_SYNC:
+        serverOnlyMessage = true;
+        break;
+    default:
+        break;
+    }
+
+    if (serverOnlyMessage)
+    {
+        AntiCheatRegisterViolation(client, "Client attempted to send a server-only message type", 50.0f);
+        return false;
+    }
+
+    const auto decision = state.limiter.allow(client->ID, bucket, Level().timeServer(), rule);
+    if (!decision.allowed)
+    {
+        AntiCheatRegisterViolation(client, "Rate limit exceeded for client message bucket", 20.0f);
+        return false;
+    }
+
+    if (messageType == M_CHAT_MESSAGE && packet.B.count > 4096)
+    {
+        AntiCheatRegisterViolation(client, "Client chat payload exceeded server limit", 25.0f);
+        return false;
+    }
+
+    return true;
+}
+
+void xrServer::AntiCheatRegisterViolation(xrClientData* client, shared_str const& detail, float score)
+{
+    if (!client)
+        return;
+
+    auto& state = runtime_anticheat_state(*this);
+    state.suspicion.add(client->ID, xrmp::play::SuspicionReason::InvalidMessage, score, Level().timeServer(),
+        detail.c_str());
+
+    const xrmp::play::SuspicionState* suspicion = state.suspicion.state(client->ID);
+    if (suspicion && suspicion->kicked)
+        AddCheater(shared_str(detail), client->ID);
+}
+
+bool xrServer::AntiCheatAuthorizeHit(u16 hitterId, u16 targetId, SHit const& hit)
+{
+    CSE_Abstract* hitter = game->get_entity_from_eid(hitterId);
+    CSE_Abstract* target = game->get_entity_from_eid(targetId);
+    if (!hitter || !target || !hitter->owner)
+        return false;
+
+    xrmp::rep::EntityRegistry registry;
+    xrmp::rep::NetEntity& shooterEntity =
+        registry.create(static_cast<xrmp::rep::NetEntityId>(hitterId), hitter->owner->ID.value());
+    shooterEntity.enableTransform(xrmp::rep::TransformRep{ xrmp::rep::Vec3{ hitter->o_Position.x, hitter->o_Position.y, hitter->o_Position.z }, xrmp::rep::Vec3{}, false });
+    xrmp::rep::NetEntity& targetEntity = registry.create(static_cast<xrmp::rep::NetEntityId>(targetId));
+    targetEntity.enableTransform(xrmp::rep::TransformRep{ xrmp::rep::Vec3{ target->o_Position.x, target->o_Position.y, target->o_Position.z }, xrmp::rep::Vec3{}, false });
+
+    xrmp::play::HitValidator validator;
+    validator.recordWorldState(Level().timeServer(), registry);
+
+    xrmp::anticheat::DamageProposal proposal;
+    proposal.request.shooterClientId = hitter->owner->ID.value();
+    proposal.request.shooterEntityId = hitterId;
+    proposal.request.targetEntityId = targetId;
+    proposal.request.clientFireTimeMs = Level().timeServer();
+    proposal.request.origin = xrmp::rep::Vec3{ hitter->o_Position.x, hitter->o_Position.y, hitter->o_Position.z };
+    proposal.request.direction = xrmp::rep::Vec3{ hit.dir.x, hit.dir.y, hit.dir.z };
+    proposal.request.maxDistance = 250.0f;
+    proposal.request.targetRadius = 1.0f;
+    proposal.damage = hit.power;
+    proposal.serverTimeMs = Level().timeServer();
+
+    auto& state = runtime_anticheat_state(*this);
+    std::string error;
+    const bool authorized =
+        state.hitAuthority.authorizeAndApply(proposal, validator, &state.suspicion, nullptr, nullptr, &error);
+    if (!authorized)
+        AntiCheatRegisterViolation(hitter->owner, shared_str(error.c_str()), 25.0f);
+    return authorized;
 }
 
 void xrServer::KickCheaters()

@@ -3379,6 +3379,9 @@
     <ProjectReference Include="$(SolutionDir)xrMaterialSystem\xrMaterialSystem.vcxproj">
       <Project>{2c419512-6eee-4707-bc51-2e834855552e}</Project>
     </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)xrMPNet\xrMPNet.vcxproj">
+      <Project>{5b7d0ca6-1d29-4f80-ab65-95afbfd53c9a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\OpenXRay.natvis" />

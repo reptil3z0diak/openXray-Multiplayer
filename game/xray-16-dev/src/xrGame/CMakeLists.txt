@@ -2497,6 +2497,7 @@ target_link_libraries(xrGame
     xrCDB
     xrPhysics
     xrNetServer
+    xrMPNet
 )
 
 target_compile_definitions(xrGame

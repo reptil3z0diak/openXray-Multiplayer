@@ -228,6 +228,8 @@ void xrServer::OnBuildVersionRespond(IClient* CL, NET_Packet& P)
 
     if (_our != _him && !g_sv_ignore_version_mismatch)
     {
+        if (xrClientData* xrClient = smart_cast<xrClientData*>(CL))
+            AntiCheatRegisterViolation(xrClient, "Build version digest mismatch", 100.0f);
         SendConnectResult(CL, 0, ecr_data_verification_failed, "Data verification failed. Cheater?");
     }
     else

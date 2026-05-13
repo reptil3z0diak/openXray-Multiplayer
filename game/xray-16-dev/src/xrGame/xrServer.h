@@ -25,6 +25,7 @@
 #endif
 
 class CSE_Abstract;
+struct SHit;
 
 constexpr u32 NET_Latency = 50; // time in (ms)
 
@@ -291,6 +292,11 @@ public:
 
     virtual void GetServerInfo(CServerInfo* si);
     void SendPlayersInfo(ClientID const& to_client);
+    void AntiCheatInitialize();
+    void AntiCheatShutdown();
+    bool AntiCheatValidateMessage(xrClientData* client, u16 messageType, NET_Packet& packet);
+    void AntiCheatRegisterViolation(xrClientData* client, shared_str const& detail, float score = 25.0f);
+    bool AntiCheatAuthorizeHit(u16 hitterId, u16 targetId, SHit const& hit);
 
 public:
     xr_string ent_name_safe(u16 eid);
